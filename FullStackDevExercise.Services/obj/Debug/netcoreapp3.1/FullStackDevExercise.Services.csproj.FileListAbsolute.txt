@@ -1,0 +1,14 @@
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.Services.deps.json
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.Services.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.Services.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.Data.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.Data.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\bin\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.csprojAssemblyReference.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.csproj.CoreCompileInputs.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.AssemblyInfoInputs.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.AssemblyInfo.cs
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.csproj.CopyComplete
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.Services\obj\Debug\netcoreapp3.1\FullStackDevExercise.Services.pdb

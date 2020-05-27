@@ -1,0 +1,12 @@
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\bin\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.deps.json
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\bin\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\bin\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.csprojAssemblyReference.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.csproj.CoreCompileInputs.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.AssemblyInfoInputs.cache
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.AssemblyInfo.cs
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\bin\Debug\netcoreapp3.1\FullStackDevExercise.Data.dll
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\bin\Debug\netcoreapp3.1\FullStackDevExercise.Data.pdb
+E:\Projects\Freelance\UpWork\2020-05-27 - LeeCuracMedLearn\Interview\FullStackDevExercise.ViewModels\obj\Debug\netcoreapp3.1\FullStackDevExercise.ViewModels.csproj.CopyComplete

@@ -24,6 +24,25 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\AppConstants.ts" />
+    <None Remove="ClientApp\src\app\appointments\appointments.routes.ts" />
+    <None Remove="ClientApp\src\app\owners\owners.routes.ts" />
+    <None Remove="ClientApp\src\app\pets\pets.routes.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FullStackDevExercise.Services\FullStackDevExercise.Services.csproj" />
+    <ProjectReference Include="..\FullStackDevExercise.ViewModels\FullStackDevExercise.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\AppConstants.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\appointments\appointments.routes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\owners\owners.routes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\pets\pets.routes.ts" />
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
@@ -44,7 +63,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
