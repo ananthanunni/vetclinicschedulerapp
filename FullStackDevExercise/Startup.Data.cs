@@ -11,7 +11,7 @@ namespace FullStackDevExercise
     private void RegisterDataDependencies(IServiceCollection services)
     {
       // Register db connection
-      services.AddScoped<IDbConnection>(r => new SqliteConnection(Configuration.GetConnectionString("SqliteDataSource")));
+      services.AddTransient<IDbConnection>(r => new SqliteConnection(Configuration.GetConnectionString("SqliteDataSource")));
 
       // Register repositories
       services.AddScoped<IOwnerRepository, OwnerRepository>();

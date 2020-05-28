@@ -8,20 +8,29 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li class="nav-item" [routerLinkActive]="['active']" *ngIf="isAuthenticated">
         <a class="nav-link" [routerLink]="['home']">Home</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['owners']">
+      <li class="nav-item" [routerLinkActive]="['owners']" *ngIf="isAuthenticated">
         <a class="nav-link" [routerLink]="['owners']">Owners</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['pets']">
-        <a class="nav-link" [routerLink]="['pets']">Pets</a>
-      </li>
-      <li class="nav-item" [routerLinkActive]="['appointments']">
+      <!--<li class="nav-item" [routerLinkActive]="['pets']" *ngIf="isAuthenticated">
+    <a class="nav-link" [routerLink]="['pets']">Pets</a>
+  </li>-->
+      <li class="nav-item" [routerLinkActive]="['appointments']" *ngIf="isAuthenticated">
         <a class="nav-link" [routerLink]="['appointments']">Appointments</a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['owners']">
-        <a class="nav-link" [routerLink]="['home']">Sign out</a>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="isAuthenticated">
+      <li class="navbar-text">
+        <span class="fa fa-user text-primary"></span>
+        &nbsp;
+        <strong>{{currentUser}}</strong> &nbsp;
+      </li>
+      <li class="nav-item " [routerLinkActive]="['owners']">
+        <a class="nav-link btn btn-danger" (click)="signOut()" [routerLink]="['home']">
+          Sign out
+        </a>
       </li>
     </ul>
   </div>

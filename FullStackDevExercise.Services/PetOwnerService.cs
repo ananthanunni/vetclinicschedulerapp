@@ -26,5 +26,23 @@ namespace FullStackDevExercise.Services
 
       return owners?.Select(r => _ownerCodec.Encode(r));
     }
+
+    public async Task<OwnerViewModel> GetOwnerAsync(long id) => _ownerCodec.Encode(await _ownerRepo.GetAsync(id));
+
+    public async Task<bool> SaveOwnerAsync(OwnerViewModel model)
+    {
+      if (model.Id == 0)
+      {
+        await _ownerRepo.InsertAsync(_ownerCodec.Decode(model));
+        return model.Id == 0;
+      }
+      else
+      {
+        var isSuccess = await _ownerRepo.UpdateAsync(_ownerCodec.Decode(model));
+        return isSuccess;
+      }
+    }
+
+    public async Task<bool> DeleteOwnerAsync(long id) => (await _ownerRepo.DeleteAsync(id)) == 1;
   }
 }

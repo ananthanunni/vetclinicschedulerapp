@@ -25,9 +25,9 @@ namespace FullStackDevExercise.Data.Repository
 
     public abstract Task<bool> UpdateAsync(TEntity data);
 
-    public virtual int DeleteAsync(long id)
+    public virtual Task<int> DeleteAsync(long id)
     {
-      return Connection.Execute($"DELETE FROM [{tableName}] WHERE [id]=@id", new { @id = id });
+      return Connection.ExecuteAsync($"DELETE FROM [{tableName}] WHERE [id]=@id", new { @id = id });
     }
   }
 }

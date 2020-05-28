@@ -1,6 +1,9 @@
+using FullStackDevExercise.Data.Entity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FullStackDevExercise
 {
@@ -24,14 +27,15 @@ namespace FullStackDevExercise
       CreatePetsTable(connection);
     }
 
-    private static void SetupDB(SqliteConnection connection) { 
+    private static void SetupDB(SqliteConnection connection)
+    {
       var createTable = connection.CreateCommand();
       createTable.CommandText = @"  PRAGMA foreign_keys = ON;";
     }
 
     private static void CreateOwnersTable(SqliteConnection connection)
     {
-      var createTable = connection.CreateCommand();
+      using var createTable = connection.CreateCommand();
       createTable.CommandText = @"
         CREATE TABLE IF NOT EXISTS owners
         (
@@ -41,11 +45,26 @@ namespace FullStackDevExercise
         )
       ";
       createTable.ExecuteNonQuery();
+      createTable.Dispose();
+
+      // Seed data
+      var owners = new List<OwnerEntity>(new[] {
+        new OwnerEntity{id =1, first_name = "Pug", last_name = "Owner 1"},
+        new OwnerEntity{id =2, first_name = "Cat", last_name = "Owner 2"},
+        new OwnerEntity{id =3, first_name = "Labrador", last_name = "Owner 3"},
+      });
+      using var seedDataCommand = connection.CreateCommand();
+      foreach (var item in owners)
+        ExecuteInsertSeedData(seedDataCommand,
+        "owners",
+          new List<string>(new[] { nameof(OwnerEntity.id), nameof(OwnerEntity.first_name), nameof(OwnerEntity.last_name) }),
+          new List<object>(new object[] { item.id, item.first_name, item.last_name }
+          ));
     }
 
     private static void CreatePetsTable(SqliteConnection connection)
     {
-      var createTable = connection.CreateCommand();
+      using var createTable = connection.CreateCommand();
       createTable.CommandText = @"
         CREATE TABLE IF NOT EXISTS pets
         (
@@ -58,6 +77,36 @@ namespace FullStackDevExercise
         )
       ";
       createTable.ExecuteNonQuery();
+
+      // Seed data
+      var pets = new List<PetEntity>(new[]{
+        new PetEntity{id=1, type ="dog", owner_id = 1, name = "Pug pup", age=3},
+        new PetEntity{id=2, type ="cat", owner_id = 2, name = "Meow", age=3},
+        new PetEntity{id=3, type ="dog", owner_id = 3, name = "Lab", age=6},
+      });
+      using var seedDataCommand = connection.CreateCommand();
+      foreach (var item in pets)
+        ExecuteInsertSeedData(seedDataCommand,
+        "pets",
+          new List<string>(new[] { nameof(PetEntity.id), nameof(PetEntity.owner_id), nameof(PetEntity.name), nameof(PetEntity.type), nameof(PetEntity.age) }),
+          new List<object>(new object[] { item.id, item.owner_id, item.name, item.type, item.age }
+          ));
+    }
+
+    private static void ExecuteInsertSeedData(SqliteCommand command, string table, IEnumerable<string> fields, IEnumerable<object> values)
+    {
+      command.Parameters.Clear();
+
+      for (var i = 0; i < values.Count(); i++)
+        command.Parameters.Add(new SqliteParameter($"@param_{i}", values.ElementAt(i)));
+
+      command.CommandText = @$"
+      INSERT OR REPLACE INTO {table} ({string.Join(',', fields)})
+ SELECT {string.Join(',', values.Select((r, i) => $"@param_{i}"))}
+ WHERE NOT EXISTS(SELECT * FROM {table}
+                   WHERE {fields.First()} ={values.First()});
+      ";
+      command.ExecuteNonQuery();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>

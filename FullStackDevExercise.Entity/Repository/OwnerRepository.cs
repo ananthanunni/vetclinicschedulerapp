@@ -19,16 +19,33 @@ namespace FullStackDevExercise.Data.Repository
       @$"INSERT INTO [{tableName}]
       ([{nameof(OwnerEntity.first_name)}],[{nameof(OwnerEntity.last_name)}])
       VALUES
-      (@fname, @lname)"
+      (@fname, @lname);
+      select last_insert_rowid();"
       , new { @fname = data.first_name, @lname = data.last_name });
 
-      var result = await Connection.ExecuteAsync(commandDefinition);
+      var result = await Connection.ExecuteScalarAsync<int>(commandDefinition);
+
+      data.id = result;
+
       return result;
     }
 
-    public override Task<bool> UpdateAsync(OwnerEntity data)
+    public override async Task<bool> UpdateAsync(OwnerEntity data)
     {
-      throw new System.NotImplementedException();
+      if (data == null) return false;
+
+      var commandDefinition = new CommandDefinition(
+      @$"UPDATE [{tableName}]
+        SET
+          [{nameof(OwnerEntity.first_name)}] = @fname,
+          [{nameof(OwnerEntity.last_name)}] = @lname
+        WHERE [{nameof(OwnerEntity.id)}] = @id;
+        "
+      , new { @fname = data.first_name, @lname = data.last_name, @id = data.id });
+
+      var result = await Connection.ExecuteAsync(commandDefinition);
+
+      return result == 1;
     }
   }
 }

@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/ngx-toastr/toastr.css";
+
+main {
+  padding: 12px 0;
+}
+
+footer {
+  padding: 36px;
+  background: #d5d1d1;
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

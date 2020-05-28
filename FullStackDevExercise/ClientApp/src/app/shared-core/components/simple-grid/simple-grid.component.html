@@ -1,0 +1,41 @@
+<div *ngIf="configuration">
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th *ngFor="let col of configuration.columns" scope="col">{{col.title}}</th>
+        <th *ngIf="hasActions()">
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!hasData()">
+      <tr>
+        <td [attr.colspan]="configuration.columns.length+(hasActions()?1:0)" class="table-warning text-center">
+          <i>No records to display.</i>
+        </td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="hasData()">
+      <tr *ngFor="let dataItem of tableData.value" [ngClass]="{'table-info':dataItem.isEditing, 'table-danger':dataItem.isDeleting}">
+        <td *ngFor="let col of configuration.columns">
+          <span>
+            {{col.templateProvider(dataItem.data)}}
+          </span>
+        </td>
+        <td *ngIf="hasActions()" width="180">
+          <span *ngIf="!dataItem.isEditing">
+            <span *ngIf="configuration.canEdit">
+              <button class="btn btn-sm btn-default" (click)="onEditRequested(dataItem)" title="Edit">
+                <span class="fa fa-edit"></span>
+              </button>
+              &nbsp;
+            </span>
+            <button class="btn btn-sm btn-danger" *ngIf="configuration.canDelete" (click)="onDeleteRequested(dataItem)" title="Delete">
+              <span class="fa fa-trash"></span>
+            </button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
