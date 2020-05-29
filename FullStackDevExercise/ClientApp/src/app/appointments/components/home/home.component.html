@@ -1,15 +1,10 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col">
-      <div class="alert alert-info">Start by choosing a day from calendar.</div>
-    </div>
-  </div>
-  <div class="row">
     <div class="col-4">
       <appointments-calendar [(date)]="selectedDate" (dateChange)="selectedDateChange($event)"></appointments-calendar>
     </div>
     <div class="col-8">
-      Appointments for {{selectedDate}}
+      <appointments-day-schedule-list [date]="selectedDate"></appointments-day-schedule-list>
     </div>
   </div>
 </div>

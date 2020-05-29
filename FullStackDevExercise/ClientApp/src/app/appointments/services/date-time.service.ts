@@ -21,6 +21,24 @@ export class DateTimeService {
 
     return weekDayNames;
   }
+
+  toFriendlyDateDisplay(date: Date, formatHtml = true, useSuffix = true, shortMonth = false, includeWeekday = true, shortWeekDay = false) {
+    if (!date) return "";
+
+    let datePart = date.getDate();
+    let dateSuffix = "";
+
+    if (useSuffix) {
+      if (datePart === 1 || datePart === 21 || datePart === 31) dateSuffix = "st";
+      else if (datePart === 2 || datePart === 22) dateSuffix = "nd";
+      else if (datePart === 3 || datePart === 23) dateSuffix = "rd";
+      else dateSuffix = "th";
+    }
+
+    let weekDayPart = includeWeekday ? `${date.toLocaleString("day", { weekday: shortWeekDay ? 'short' : "long" })}` : "";
+
+    return `${datePart}${formatHtml ? "<sup>" : ""}${dateSuffix}${formatHtml ? "</sup>" : ""} ${date.toLocaleString("month", { month: shortMonth ? "short" : "long" })} ${date.getFullYear()}, ${weekDayPart}`;
+  }
 }
 
 export class MonthInfo {

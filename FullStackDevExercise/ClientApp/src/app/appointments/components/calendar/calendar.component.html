@@ -26,7 +26,7 @@
         <tr *ngFor="let week of calendarWeeks">
           <td class="date-cell"
               (click)="selectDay(wd)"
-              [ngClass]="{'selected':wd.date?.getTime()===date.getTime(),'empty':!wd.date, 'holiday':wd?.isHoliday}"
+              [ngClass]="{'selected':wd.date?.getDate()===date.getDate(),'empty':!wd.date, 'holiday':wd?.isHoliday}"
               *ngFor="let wd of week.dates">
             <ng-container *ngTemplateOutlet="cellTemplate;context:{date:wd}"></ng-container>
           </td>

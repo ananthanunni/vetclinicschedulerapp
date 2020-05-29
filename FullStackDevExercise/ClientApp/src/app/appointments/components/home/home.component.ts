@@ -12,10 +12,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedDate = new Date(1986, 0);//new Date();
+    this.selectedDate = new Date();
   }
 
   selectedDateChange(date:Date): void {
-    debugger;
+    
   }
 }

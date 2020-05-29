@@ -6,11 +6,12 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { SharedCoreModule } from '../shared-core/shared-core.module';
 import { DateTimeService } from './services/date-time.service';
 import { HomeComponent } from './components/home/home.component';
+import { DayScheduleListComponent } from './components/day-schedule-list/day-schedule-list.component';
 
 
 
 @NgModule({
-  declarations: [CalendarComponent, HomeComponent],
+  declarations: [CalendarComponent, HomeComponent, DayScheduleListComponent],
   imports: [
     CommonModule,
     SharedCoreModule,
