@@ -1,0 +1,43 @@
+<div>
+  <div *ngIf="month" class="table-responsive">
+    <!--{{weekDays|json}}-->
+    <table class="table table-bordered calendar">
+      <thead>
+        <tr class="text-center">
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="moveMonth(-1)">
+              <span class="fa fa-chevron-left"></span>
+            </button>
+          </td>
+          <td colspan="5"><h3 class="title">{{month.monthName}} <small>{{month.year}}</small></h3></td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="moveMonth(1)">
+              <span class="fa fa-chevron-right"></span>
+            </button>
+          </td>
+        </tr>
+        <tr class="weekname">
+          <td *ngFor="let day of weekDays" class="text-center" [ngClass]="{'holiday':day.isHoliday}">
+            {{day.shortName}}
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let week of calendarWeeks">
+          <td class="date-cell"
+              (click)="selectDay(wd)"
+              [ngClass]="{'selected':wd.date?.getTime()===date.getTime(),'empty':!wd.date, 'holiday':wd?.isHoliday}"
+              *ngFor="let wd of week.dates">
+            <ng-container *ngTemplateOutlet="cellTemplate;context:{date:wd}"></ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #cellTemplate let-date="date">
+  <div class="cell-content">
+    <div *ngIf="!!date"><span class="date-number">{{date.dateNumber}}</span></div>
+  </div>
+</ng-template>

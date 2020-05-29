@@ -13,6 +13,69 @@ footer {
   background: #d5d1d1;
 }
 
+.calendar {
+  thead {
+    .title {
+    margin:0;
+    }
+
+    tr.weekname {
+      td {
+        width: 14.28%;
+        max-width: 14.28%;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(90deg, #2b2b2b, #585858);
+
+        &.holiday {
+          background: #de0000;
+        }
+      }
+    }
+  }
+
+  tbody {
+    .date-cell {
+      padding: 0;
+      position: relative;
+      background-image: linear-gradient(270deg, white, #f3f3f3);
+      transition-duration: 0.3s;
+
+      &.empty {
+        background-image: linear-gradient(270deg, gainsboro, #dcdcdc);
+      }
+
+      &.holiday {
+        color: #de0000;
+        background-image: linear-gradient(270deg, white, #f3f3f3);
+      }
+
+      &:not(.empty):hover {
+        background-image: linear-gradient(270deg, white, #ffe4ab);
+      }
+
+      &.selected {
+        background-image: linear-gradient(270deg, white, #eebc53);
+        box-shadow: #d5881d 0px 0px 12px inset;
+      }
+
+      .cell-content {
+        position: relative;
+        padding: 18px 6px;
+
+        .date-number {
+          position: absolute;
+          right: 6px;
+          top: 3px;
+          font-size: larger;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
