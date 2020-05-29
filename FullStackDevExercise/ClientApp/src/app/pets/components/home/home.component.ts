@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Owner } from '../../../owners/components/owner-list/Owner';
 import { MetaService } from '../../../shared-core/services/meta.service';
 import { StorageService } from '../../../shared-core/services/storage.service';
+import { Owner } from '../../../owners/services/owner.service';
 
 @Component({
   selector: 'pets-home',

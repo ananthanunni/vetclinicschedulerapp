@@ -81,8 +81,20 @@ namespace FullStackDevExercise
       // Seed data
       var pets = new List<PetEntity>(new[]{
         new PetEntity{id=1, type ="dog", owner_id = 1, name = "Pug pup", age=3},
-        new PetEntity{id=2, type ="cat", owner_id = 2, name = "Meow", age=3},
-        new PetEntity{id=3, type ="dog", owner_id = 3, name = "Lab", age=6},
+        new PetEntity{id=2, type ="cat", owner_id = 1, name = "Meow", age=3},
+        new PetEntity{id=3, type ="dog", owner_id = 1, name = "Lab", age=6},
+        new PetEntity{id=4, type ="dog", owner_id = 1, name = "New Pup", age=3},
+        new PetEntity{id=5, type ="cat", owner_id = 1, name = "Meow 2", age=5},
+        new PetEntity{id=6, type ="dog", owner_id = 1, name = "New Lab", age=3},
+
+
+        new PetEntity{id=7, type ="cat", owner_id = 2, name = "C Meow", age=3},
+        new PetEntity{id=8, type ="dog", owner_id = 3, name = "New Lab", age=2},
+
+        new PetEntity{id=9, type ="cat", owner_id = 1, name = "D Meow", age=3},
+        new PetEntity{id=10, type ="dog", owner_id = 1, name = "Labbbb", age=6},
+        new PetEntity{id=11, type ="dog", owner_id = 1, name = "New Puppy", age=3},
+        new PetEntity{id=12, type ="cat", owner_id = 1, name = "Meowwww", age=5},
       });
       using var seedDataCommand = connection.CreateCommand();
       foreach (var item in pets)

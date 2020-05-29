@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace FullStackDevExercise.Controllers
 {
   [ApiController]
-  [Route("api/{ownerId}/pets")]
+  [Route("api/pets/{ownerId}")]
   public class PetsController : BaseController
   {
     private readonly IPetOwnerService _petOwnerService;

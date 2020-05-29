@@ -15,9 +15,10 @@ import { HttpHelperService } from './services/http-helper.service';
 import { MetaService } from './services/meta.service';
 import { StorageService } from './services/storage.service';
 import { ToastrModule } from 'ngx-toastr';
+import { ThrobberComponent } from './components/throbber/throbber.component';
 
 @NgModule({
-  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, GridDataEditViewModalComponent],
+  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, GridDataEditViewModalComponent, ThrobberComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -33,7 +34,8 @@ import { ToastrModule } from 'ngx-toastr';
     NavBarComponent,
     FooterComponent,
     SimpleGridComponent,
-    ModalComponent
+    ModalComponent,
+    ThrobberComponent
   ],
   providers: [
     MetaService,

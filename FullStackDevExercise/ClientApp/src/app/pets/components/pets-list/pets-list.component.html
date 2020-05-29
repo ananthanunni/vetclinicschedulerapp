@@ -1,1 +1,16 @@
-<p>pets-list works!</p>
+
+  <div *ngIf="!isLoading; else throbber" class="row">
+    <div class="col">
+      <div class="pets-list-container">
+        <pets-pets-list-item *ngFor="let item of collection" [pet]="item"></pets-pets-list-item>
+      </div>
+    </div>
+  </div>
+
+<ng-template #throbber>
+  <div class="row">
+    <div class="col">
+      <shared-core-throbber [block]="true"></shared-core-throbber>
+    </div>
+  </div>
+</ng-template>

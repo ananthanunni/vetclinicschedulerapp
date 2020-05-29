@@ -1,1 +1,1 @@
-{"version":3,"file":"Owner.js","sourceRoot":"","sources":["Owner.ts"],"names":[],"mappings":";;AAAA;IACE,eAAmB,EAAiB,EAAS,SAAwB,EAAS,QAAuB;QAAlF,mBAAA,EAAA,SAAiB;QAAS,0BAAA,EAAA,gBAAwB;QAAS,yBAAA,EAAA,eAAuB;QAAlF,OAAE,GAAF,EAAE,CAAe;QAAS,cAAS,GAAT,SAAS,CAAe;QAAS,aAAQ,GAAR,QAAQ,CAAe;IAAI,CAAC;IAC5G,YAAC;AAAD,CAAC,AAFD,IAEC;AAFY,sBAAK"}
+{"version":3,"file":"Owner.js","sourceRoot":"","sources":["Owner.ts"],"names":[],"mappings":""}

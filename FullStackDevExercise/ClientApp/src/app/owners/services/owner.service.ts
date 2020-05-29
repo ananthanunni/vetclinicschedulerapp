@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHelperService } from '../../shared-core/services/http-helper.service';
 import { Observable } from 'rxjs';
-import { Owner } from '../components/owner-list/Owner';
-
 @Injectable()
 export class OwnerService {
   constructor(private http: HttpHelperService) { }
@@ -20,4 +18,8 @@ export class OwnerService {
       this.http.post<Owner, Owner>(this.http.resolveApiUrl("owners"), data) :
       this.http.put<Owner, Owner>(this.http.resolveApiUrl("owners", data.id.toString()), data);
   }
+}
+
+export class Owner {
+  constructor(public id: number = null, public firstName: string = null, public lastName: string = null) { }
 }

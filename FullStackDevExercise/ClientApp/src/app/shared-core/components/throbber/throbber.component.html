@@ -1,0 +1,23 @@
+<div *ngIf="block; else throbberContent" class="text-center">
+  <ng-container *ngTemplateOutlet="throbberContent"></ng-container>
+</div>
+
+<ng-template #throbberContent>
+  <table class="throbberContainer">
+    <tr>
+      <td class="throbber-item">
+        <div class="sk-chase" [ngStyle]="{'width.px':size, 'height.px':size}">
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+          <div class="sk-chase-dot"></div>
+        </div>
+      </td>
+      <td *ngIf="!!text" class="throbber-item">
+        <div class="loading-text">{{text}}</div>
+      </td>
+    </tr>
+  </table>
+</ng-template>

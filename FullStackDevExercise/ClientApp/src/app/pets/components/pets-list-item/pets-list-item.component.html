@@ -1,1 +1,8 @@
-<p>pets-list-item works!</p>
+<div class="pet-list-item" [ngClass]="pet.type">
+  <h1 class="pet-name">{{pet.name}}</h1>
+  <span class="pet-age">
+    {{pet.age||'N/A'}}
+    <small>Year{{pet.age||0>1?'s':''}}</small>
+  </span>
+  <span class="icon" [ngClass]="pet.type"></span>
+</div>

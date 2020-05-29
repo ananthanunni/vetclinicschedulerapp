@@ -6,6 +6,7 @@ import { PetsListComponent } from './components/pets-list/pets-list.component';
 import { PetsListItemComponent } from './components/pets-list-item/pets-list-item.component';
 import { SharedCoreModule } from '../shared-core/shared-core.module';
 import { HomeComponent } from './components/home/home.component';
+import { PetService } from './services/pet.service';
 
 
 
@@ -15,6 +16,9 @@ import { HomeComponent } from './components/home/home.component';
     CommonModule,
     SharedCoreModule,
     RouterModule.forChild(routes)
+  ],
+  providers: [
+    PetService
   ]
 })
 export class PetsModule { }

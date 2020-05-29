@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataProviderRequesParameters, GridAction, GridColumn, SimpleGridConfiguration } from '../../../shared-core/components/simple-grid/simple-grid.component';
-import { OwnerService } from '../../services/owner.service';
-import { Owner } from './Owner';
+import { OwnerService, Owner } from '../../services/owner.service';
 
 @Component({
   selector: 'owners-owner-list',
