@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { DialogService } from '../../services/dialog.service';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { map } from 'rxjs/operators';
+import { GridDialogService } from '../../services/grid-dialog.service';
 
 @Component({
   selector: 'shared-core-simple-grid',
@@ -10,7 +11,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./simple-grid.component.css']
 })
 export class SimpleGridComponent implements OnInit {
-  constructor(private dialogService: DialogService) { }
+  constructor(private dialogService: DialogService, private gridDialogService:GridDialogService) { }
   tableData: BehaviorSubject<RowDataItem<any>[]> = new BehaviorSubject<RowDataItem<any>[]>([]);
 
   async ngOnInit() {
@@ -31,7 +32,7 @@ export class SimpleGridComponent implements OnInit {
   onEditRequested(dataItem: RowDataItem<any>) {
     dataItem.beginEdit();
 
-    this.dialogService.saveGridRow("Edit", this.configuration.columns, dataItem.data, this.configuration.onSave)
+    this.gridDialogService.saveGridRow("Edit", this.configuration.columns, dataItem.data, this.configuration.onSave)
       .subscribe(r => {
         if (r.success == true) {
           dataItem.finishEdit(r.data);
@@ -43,8 +44,6 @@ export class SimpleGridComponent implements OnInit {
 
           return;
         }
-
-        debugger;
 
         dataItem.cancelEdit();
       },
@@ -58,7 +57,7 @@ export class SimpleGridComponent implements OnInit {
   onDeleteRequested(dataItem: RowDataItem<any>) {
     dataItem.isDeleting = true;
 
-    this.dialogService.deleteConfirm("Are you sure to delete this item?", "Delete")
+    this.gridDialogService.deleteConfirm("Are you sure to delete this item?", "Delete")
       .subscribe((deleteConfirmed) => {
         if (deleteConfirmed)
           this.configuration.onDeleteRequested(dataItem.data)
@@ -110,6 +109,7 @@ export class SimpleGridConfiguration<T> {
   }
 
   columns: GridColumn<T>[];
+  //canCreate: boolean;
   canDelete: boolean;
   canEdit: boolean;
   dataProvider: (parameters: DataProviderRequesParameters) => Promise<T[]>;

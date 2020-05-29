@@ -10,10 +10,12 @@ namespace FullStackDevExercise
     {
       // Register services
       services.AddScoped<IPetOwnerService, PetOwnerService>();
+      services.AddScoped<IAppointmentService, AppointmentService>();
 
       // Register codecs
       services.AddScoped<IOwnerCodec, OwnerCodec>();
       services.AddScoped<IPetCodec, PetCodec>();
+      services.AddScoped<IAppointmentCodec, AppointmentCodec>();
     }
   }
 }

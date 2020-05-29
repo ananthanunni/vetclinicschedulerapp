@@ -16,6 +16,7 @@ namespace FullStackDevExercise
       // Register repositories
       services.AddScoped<IOwnerRepository, OwnerRepository>();
       services.AddScoped<IPetRepository, PetRepository>();
+      services.AddScoped<IAppointmentRepository, AppointmentRepository>();
     }
   }
 }

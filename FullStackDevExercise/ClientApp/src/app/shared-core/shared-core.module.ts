@@ -16,6 +16,7 @@ import { MetaService } from './services/meta.service';
 import { StorageService } from './services/storage.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ThrobberComponent } from './components/throbber/throbber.component';
+import { GridDialogService } from './services/grid-dialog.service';
 
 @NgModule({
   declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, GridDataEditViewModalComponent, ThrobberComponent],
@@ -42,7 +43,8 @@ import { ThrobberComponent } from './components/throbber/throbber.component';
     AuthenticationService,
     StorageService,
     HttpHelperService,
-    DialogService
+    DialogService,
+    GridDialogService
   ],
   entryComponents: [
     ModalComponent,

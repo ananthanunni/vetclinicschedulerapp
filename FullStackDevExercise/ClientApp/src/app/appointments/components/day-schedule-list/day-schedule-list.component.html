@@ -1,5 +1,10 @@
 <h2>
   Appointments for <span [innerHtml]="selectedDateDisplay"></span>
 </h2>
-<div class="row">
+<div *ngIf="!isLoading; else throbber" class="row">
+  
 </div>
+
+<ng-template #throbber>
+  <shared-core-throbber [block]="true" text="Loading..."></shared-core-throbber>
+</ng-template>

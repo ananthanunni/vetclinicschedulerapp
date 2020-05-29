@@ -1,4 +1,11 @@
 <div *ngIf="configuration">
+  <div class="row pb-1">
+    <!--<div class="col text-right">
+      <button class="btn btn-success" *ngIf="configuration.canAdd">
+        <span class="fa fa-plus"></span>
+      </button>
+    </div>-->
+  </div>
   <table class="table table-bordered table-striped table-hover">
     <thead>
       <tr>
@@ -37,8 +44,8 @@
             <span *ngFor="let action of configuration.actions">
               &nbsp;
               <button class="btn-sm" [ngClass]="action.buttonCss" (click)="action.onClick(dataItem.data)">
-              <span [ngClass]="action.iconCss"></span>
-              {{action.label}}
+                <span [ngClass]="action.iconCss"></span>
+                {{action.label}}
               </button>
             </span>
           </span>
