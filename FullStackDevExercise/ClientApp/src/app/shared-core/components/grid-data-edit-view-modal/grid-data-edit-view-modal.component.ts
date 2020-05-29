@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GridColumn } from '../simple-grid/simple-grid.component';
 import { FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'shared-core-grid-data-edit-view-modal',
@@ -13,7 +14,7 @@ import { Observable } from 'rxjs';
 })
 export class GridDataEditViewModalComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(public activeModal: NgbActiveModal, private domSanitizer: DomSanitizer) { }
+  constructor(public activeModal: NgbActiveModal, private domSanitizer: DomSanitizer, private dialogService:DialogService) { }
 
   ngOnInit(): void {
     this.initialize();
@@ -38,7 +39,7 @@ export class GridDataEditViewModalComponent implements OnInit {
         this.activeModal.close({ success: true, data: this.formGroup.value });
       },
         r => {
-          // TODO: Warn about failure in saving
+          this.dialogService.showToast("Error saving record.");
         });
   }
 

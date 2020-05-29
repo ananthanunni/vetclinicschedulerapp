@@ -22,10 +22,10 @@
             {{col.templateProvider(dataItem.data)}}
           </span>
         </td>
-        <td *ngIf="hasActions()" width="180">
+        <td *ngIf="hasActions()" width="240">
           <span *ngIf="!dataItem.isEditing">
             <span *ngIf="configuration.canEdit">
-              <button class="btn btn-sm btn-default" (click)="onEditRequested(dataItem)" title="Edit">
+              <button class="btn btn-sm btn-primary" (click)="onEditRequested(dataItem)" title="Edit">
                 <span class="fa fa-edit"></span>
               </button>
               &nbsp;
@@ -33,6 +33,14 @@
             <button class="btn btn-sm btn-danger" *ngIf="configuration.canDelete" (click)="onDeleteRequested(dataItem)" title="Delete">
               <span class="fa fa-trash"></span>
             </button>
+
+            <span *ngFor="let action of configuration.actions">
+              &nbsp;
+              <button class="btn-sm" [ngClass]="action.buttonCss" (click)="action.onClick(dataItem.data)">
+              <span [ngClass]="action.iconCss"></span>
+              {{action.label}}
+              </button>
+            </span>
           </span>
         </td>
       </tr>

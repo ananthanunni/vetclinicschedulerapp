@@ -44,10 +44,13 @@ export class SimpleGridComponent implements OnInit {
           return;
         }
 
-        this.dialogService.showToast("Error modifying record.", "success");
+        debugger;
+
         dataItem.cancelEdit();
       },
         canceled => {
+          this.dialogService.showToast("Error modifying record.", "success");
+
           dataItem.cancelEdit();
         });
   }
@@ -62,10 +65,9 @@ export class SimpleGridComponent implements OnInit {
             .then(isDeleted => {
               if (isDeleted) {
                 this.tableData.next(this.tableData.value.filter(r => r != dataItem));
-                this.dialogService.showToast("Item deleted successfully.","success");
+                this.dialogService.showToast("Item deleted successfully.", "success");
               }
               else {
-                //TODO: Warn user about delete failure.
                 dataItem.isDeleting = false;
                 this.dialogService.showToast("Error deleting record.", "error");
               }
@@ -122,11 +124,11 @@ export class SimpleGridConfiguration<T> {
 }
 
 export class GridAction<T> {
-  buttonCss: string;
-  iconCss: string;
-  onInit: (data: T) => void = (data) => { };
-  onConfirm: (data: T) => Promise<boolean> = (data: T) => Promise.resolve(true);
-  onCommit: (data: T) => Promise<{ success: boolean, data: T }>;
+  constructor(
+    public buttonCss: string = "",
+    public iconCss: string = "",
+    public label: string = "",
+    public onClick: (data: T) => void) { }
 }
 
 //export class PaginationConfiguration {

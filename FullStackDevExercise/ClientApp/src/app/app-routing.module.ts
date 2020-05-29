@@ -7,8 +7,8 @@ import { HomeComponent } from './home/components/home/home.component';
 const routes: Routes = [
   { path: "", component: SignInComponent },
   { path: "home", component: HomeComponent },
-  { path: "pets", loadChildren: () => import('../app/pets/pets.module').then(r => r.PetsModule) },
   { path: "owners", loadChildren: () => import('../app/owners/owners.module').then(r => r.OwnersModule) },
+  { path: "owners/:ownerId/pets", loadChildren: () => import('../app/pets/pets.module').then(r => r.PetsModule) },
   { path: "appointments", loadChildren: () => import('../app/appointments/appointments.module').then(r => r.AppointmentsModule) },
 ];
 

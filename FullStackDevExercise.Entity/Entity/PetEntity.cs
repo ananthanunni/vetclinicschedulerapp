@@ -2,7 +2,7 @@ namespace FullStackDevExercise.Data.Entity
 {
   public class PetEntity:BaseEntity, IEntity
   {
-    public int owner_id { get; set; }
+    public long owner_id { get; set; }
     public string type { get; set; }
     public string name { get; set; }
     public int age { get; set; }

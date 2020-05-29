@@ -10,5 +10,9 @@ namespace FullStackDevExercise.Services
     Task<OwnerViewModel> GetOwnerAsync(long id);
     Task<bool> SaveOwnerAsync(OwnerViewModel model);
     Task<bool> DeleteOwnerAsync(long id);
+    Task<IEnumerable<PetViewModel>> GetPetsByOwnerIdAsync(long ownerId);
+    Task<PetViewModel> GetPetByIdAsync(long ownerId, long id);
+    Task<bool> SavePetAsync(long ownerId, PetViewModel model);
+    Task<bool> DeletePetAsync(object ownerId, long id);
   }
 }

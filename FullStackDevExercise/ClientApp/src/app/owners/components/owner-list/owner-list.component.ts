@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { SimpleGridConfiguration, GridColumn, DataProviderRequesParameters } from '../../../shared-core/components/simple-grid/simple-grid.component';
-import { Owner } from './Owner';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { DataProviderRequesParameters, GridAction, GridColumn, SimpleGridConfiguration } from '../../../shared-core/components/simple-grid/simple-grid.component';
 import { OwnerService } from '../../services/owner.service';
+import { Owner } from './Owner';
 
 @Component({
   selector: 'owners-owner-list',
@@ -14,19 +15,11 @@ export class OwnerListComponent implements OnInit {
 
   gridConfig: SimpleGridConfiguration<Owner> = null;
 
-  columnDefs = [
-    { headerName: 'Id', field: 'id' },
-    { headerName: 'First Name', field: 'firstName' },
-    { headerName: 'Last Name', field: 'lastName' }
-  ];
+  @Output("onViewPetsRequested")
+  onViewPetsRequested = new EventEmitter<Owner>();
 
   ngOnInit(): void {
     this.createGridConfig();
-    this.loadData();
-  }
-
-  private loadData() {
-    this.ownersService.getOwners();
   }
 
   createGridConfig() {
@@ -52,6 +45,16 @@ export class OwnerListComponent implements OnInit {
     });
 
     config.onSave = (data: Owner) => this.ownersService.save(data);
+
+    config.actions = [
+      new GridAction<Owner>(
+        "btn btn-info",
+        "fas fas-paw",
+        "Pets...",
+        (data) => {
+          this.onViewPetsRequested.emit(data);
+        })
+    ];
 
     this.gridConfig = config;
   }

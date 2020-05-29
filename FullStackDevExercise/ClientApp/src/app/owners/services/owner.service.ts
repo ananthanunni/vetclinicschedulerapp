@@ -3,9 +3,7 @@ import { HttpHelperService } from '../../shared-core/services/http-helper.servic
 import { Observable } from 'rxjs';
 import { Owner } from '../components/owner-list/Owner';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OwnerService {
   constructor(private http: HttpHelperService) { }
 

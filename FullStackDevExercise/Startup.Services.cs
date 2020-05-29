@@ -13,6 +13,7 @@ namespace FullStackDevExercise
 
       // Register codecs
       services.AddScoped<IOwnerCodec, OwnerCodec>();
+      services.AddScoped<IPetCodec, PetCodec>();
     }
   }
 }

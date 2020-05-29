@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MetaService } from '../../../shared-core/services/meta.service';
+import { Owner } from '../owner-list/Owner';
+import { StorageService } from '../../../shared-core/services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'owners-home',
@@ -8,10 +11,16 @@ import { MetaService } from '../../../shared-core/services/meta.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private meta:MetaService) { }
+  constructor(private meta: MetaService, private router: Router, private storageService: StorageService) { }
+
+  onViewPetsRequested(owner: Owner) {
+    this.storageService.setValue("selectedOwner", JSON.stringify(owner));
+    this.router.navigate(["owners", owner.id, "pets"]);
+  }
 
   ngOnInit(): void {
-    this.meta.setTitle("Owner Management");
+    this.storageService.clearValue("selectedOwner");
+    this.meta.setTitle("Owners");
   }
 
 }
