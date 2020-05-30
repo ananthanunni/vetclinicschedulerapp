@@ -10,8 +10,7 @@
         </div>
         <div class="schedule-cell"
              *ngFor="let slot of hour.slots"
-             [ngClass]="{'inactive':slot.isInactive,'taken':slot.appointment}"
-             [attr.title]='toSlotTimeDisplay(slot)'>
+             [ngClass]="{'inactive':slot.isInactive,'taken':slot.appointment}">
           <ng-container *ngTemplateOutlet="cell;context:{hour:hour, slot:slot }"></ng-container>
         </div>
       </div>
@@ -29,11 +28,18 @@
     </div>
     <div *ngIf="!slot.isInactive">
       <span class="time-display">{{toSlotTimeDisplay(slot)}}</span>
-      <div class="appointment-info" *ngIf="slot.appointment" title="{{slot.appointment|json}}">
-        {{slot.appointment.notes}}
+      <div class="appointment-info" *ngIf="slot.appointment">
+        <div *ngIf="!isLinkedToPrevious(slot)">
+          <span class="pet-icon" [ngClass]="slot.appointment.pet.type"></span>
+          <div class="owner-name">
+            <strong>{{slot.appointment.owner.firstName+' '+slot.appointment.owner.firstName}}</strong>
+          </div>
+          <div class="pet-name">
+            <strong>{{slot.appointment.pet.name}}</strong>
+          </div>
+        </div>
       </div>
       <div class="appointment-chain-link" *ngIf="isLinkedToPrevious(slot)">
-        PREV
       </div>
     </div>
   </div>

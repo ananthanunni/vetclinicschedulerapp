@@ -95,11 +95,10 @@ footer {
     }
 
     .schedule-cell {
-      background-image: linear-gradient(270deg, #e8e8e8, gainsboro);
+      background-image: linear-gradient(270deg, #d3ffbc, #defbcf);
       border: 1px solid white;
       width: 100%;
       height: 66px;
-      overflow: hidden;
       padding: 6px 3px;
       transition-duration: 0.3s;
       border-radius: 6px;
@@ -109,17 +108,48 @@ footer {
         opacity: 0.24;
       }
 
-      &.available {
-        background-image: linear-gradient(270deg, #afff85, #d1ffb9);
+      &.taken {
+        background-image: linear-gradient(270deg, #ffe7e7, #ffcfcf);
       }
 
-      &.taken {
-        background-image: linear-gradient(270deg, #ff8b85, #ffb9b9);
-      }
 
       .cell-content {
         position: relative;
         height: 100%;
+
+        .appointment-chain-link {
+          position: absolute;
+          background: #ff2222;
+          right: 100%;
+          height: 5px;
+          bottom: -6px;
+          width: 204%;
+          left: -103.6%;
+          box-shadow: #ff5f5f -1px -3px 6px;
+        }
+
+        .appointment-info {
+          position: absolute;
+          bottom: 6px;
+          width: 100%;
+          height: 100%;
+          text-align: right;
+
+          .pet-icon {
+            position: absolute;
+            /* background: red; */
+            background-size: contain;
+            width: 30px;
+            height: 30px;
+            left: 0px;
+            bottom: 0;
+          }
+
+          .owner-name {
+            font-weight: 300;
+            font-size: x-large;
+          }
+        }
 
         .time-display {
           position: absolute;
@@ -133,7 +163,6 @@ footer {
     }
   }
 }
-
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
@@ -182,16 +211,16 @@ footer {
       right: 6px;
       bottom: 6px;
       background-size: contain;
-
-      &.dog {
-        background-image: url('assets/images/dog.svg');
-      }
-
-      &.cat {
-        background-image: url('assets/images/cat.svg');
-      }
     }
   }
+}
+
+.dog {
+  background-image: url('assets/images/dog.svg');
+}
+
+.cat {
+  background-image: url('assets/images/cat.svg');
 }
 
 .throbberContainer {

@@ -88,9 +88,15 @@ export class DayScheduleListComponent implements OnInit, OnChanges {
   toSlotTimeDisplay(slot: Slot) { return this.dateTimeService.toFriendlyTimeDisplay(slot.start, false); }
 
   isLinkedToPrevious(slot: Slot) {
-    if (this.slots.indexOf(slot) === 0) return false;
+    if (!slot.appointment) return false;
 
-    return true;
+    let itemIndex = this.slots.indexOf(slot);
+
+    if (itemIndex === 0) return false;
+
+    if (this.slots[itemIndex - 1].appointment == slot.appointment) return true;
+    
+    return false;
   }
 
   blockLeadTextDisplay(hour: Hour) { return this.dateTimeService.toFriendlyTimeDisplay(hour.slots[0].start, false, false); }
