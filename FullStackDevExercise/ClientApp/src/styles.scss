@@ -118,14 +118,17 @@ footer {
         height: 100%;
 
         .appointment-chain-link {
-          position: absolute;
+          /*position: absolute;
           background: #ff2222;
-          right: 100%;
           height: 5px;
           bottom: -6px;
-          width: 204%;
-          left: -103.6%;
-          box-shadow: #ff5f5f -1px -3px 6px;
+          width: 100%;
+          box-shadow: #ff5f5f -1px -3px 6px;*/
+          position: absolute;
+          color: #ff2b2b;
+          top: -9px;
+          text-shadow: #a78a8a 2px 2px 3px;
+          left: -9px;
         }
 
         .appointment-info {
@@ -153,7 +156,7 @@ footer {
 
         .time-display {
           position: absolute;
-          left: -3px;
+          left: 6px;
           top: -6px;
           font-size: small;
           font-weight: bold;

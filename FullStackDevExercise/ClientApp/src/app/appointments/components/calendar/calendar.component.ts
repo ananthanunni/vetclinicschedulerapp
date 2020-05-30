@@ -21,7 +21,6 @@ export class CalendarComponent implements OnInit {
   @Output("dateChange")
   dateChange = new EventEmitter<Date>();
 
-
   moveMonth(offset: number) {
     let nextMonth = offset > 0 ? this.month.endDate : this.month.startDate;
     nextMonth.setDate(nextMonth.getDate() + offset);
@@ -44,7 +43,7 @@ export class CalendarComponent implements OnInit {
   }
 
   private setDate(date: Date) {
-    this.month= new MonthInfo(this.date.getFullYear(), this.date.getMonth());
+    this.month = new MonthInfo(this.date.getFullYear(), this.date.getMonth());
   }
 
   private refreshCalendar() {
@@ -78,12 +77,10 @@ class CalendarWeek {
 
 class CalendarCell {
   constructor(public date: Date = null) { }
+  eventsCount = 0;
   get isHoliday() {
     return this.date?.getDay() === 0;
   }
 
   get dateNumber() { return this.date?.getDate(); }
-
-  setEvents(events: []) { }
-  getEvents() { }
 }
