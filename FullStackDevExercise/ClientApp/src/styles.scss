@@ -13,10 +13,12 @@ footer {
   background: #d5d1d1;
 }
 
+
+// Calendar
 .calendar {
   thead {
     .title {
-    margin:0;
+      margin: 0;
     }
 
     tr.weekname {
@@ -76,6 +78,62 @@ footer {
     }
   }
 }
+
+// Schedule list
+.schedule-list {
+  .schedule-row {
+    display: flex;
+
+    .schedule-cell-lead {
+      width: 24%;
+      padding: 23px 6px;
+      text-align: center;
+      font-size: 12px;
+      background: #35eaa7;
+      margin: 1px 0px 0 0;
+      border-radius: 6px;
+    }
+
+    .schedule-cell {
+      background-image: linear-gradient(270deg, #e8e8e8, gainsboro);
+      border: 1px solid white;
+      width: 100%;
+      height: 66px;
+      overflow: hidden;
+      padding: 6px 3px;
+      transition-duration: 0.3s;
+      border-radius: 6px;
+
+      &.inactive {
+        background-image: linear-gradient(270deg, #ffffff, white);
+        opacity: 0.24;
+      }
+
+      &.available {
+        background-image: linear-gradient(270deg, #afff85, #d1ffb9);
+      }
+
+      &.taken {
+        background-image: linear-gradient(270deg, #ff8b85, #ffb9b9);
+      }
+
+      .cell-content {
+        position: relative;
+        height: 100%;
+
+        .time-display {
+          position: absolute;
+          left: -3px;
+          top: -6px;
+          font-size: small;
+          font-weight: bold;
+          background-image: linear-gradient(45deg, #ffffff, transparent);
+        }
+      }
+    }
+  }
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 

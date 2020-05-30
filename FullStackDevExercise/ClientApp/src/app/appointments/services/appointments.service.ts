@@ -1,14 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpHelperService } from '../../shared-core/services/http-helper.service';
-import { Pet } from '../../pets/services/pet.service';
 import { Owner } from '../../owners/services/owner.service';
+import { Pet } from '../../pets/services/pet.service';
+import { HttpHelperService } from '../../shared-core/services/http-helper.service';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AppointmentsService {
   constructor(private http: HttpHelperService) { }
 
   getAppointmentsForDate(date: Date) {
-    return this.http.get<Appointment[]>(this.http.resolveApiUrl("appointments", date.getFullYear(), date.getMonth(), date.getDate()));
+    return this.http.get<Appointment[]>(this.http.resolveApiUrl("appointments", date.getFullYear(), date.getMonth(), date.getDate()))
+      .pipe(
+        map(collection => {
+          return (collection || [])
+            .map(r => {
+              r.slotFrom = new Date(r.slotFrom);
+              r.slotTo = new Date(r.slotTo);
+              return r;
+            })
+        })
+      );
   }
 }
 

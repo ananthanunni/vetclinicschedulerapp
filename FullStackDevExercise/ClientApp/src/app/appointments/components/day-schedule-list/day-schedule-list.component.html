@@ -2,8 +2,42 @@
   Appointments for <span [innerHtml]="selectedDateDisplay"></span>
 </h2>
 <div *ngIf="!isLoading; else throbber" class="row">
-  
+  <div class="col">
+    <div class="schedule-list">
+      <div class="schedule-row" *ngFor="let hour of hours">
+        <div class="schedule-cell-lead">
+          <strong>{{blockLeadTextDisplay(hour)}}</strong>
+        </div>
+        <div class="schedule-cell"
+             *ngFor="let slot of hour.slots"
+             [ngClass]="{'inactive':slot.isInactive,'taken':slot.appointment}"
+             [attr.title]='toSlotTimeDisplay(slot)'>
+          <ng-container *ngTemplateOutlet="cell;context:{hour:hour, slot:slot }"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #cell let-slot="slot" let-hour="hour">
+  <div class="cell-content">
+    <div *ngIf="slot.isInactive">
+      <div class="text-center">
+        <span *ngIf="slot.inactiveReason === 'outofoffice'">CLOSED</span>
+        <span *ngIf="slot.inactiveReason === 'break'">BREAK</span>
+      </div>
+    </div>
+    <div *ngIf="!slot.isInactive">
+      <span class="time-display">{{toSlotTimeDisplay(slot)}}</span>
+      <div class="appointment-info" *ngIf="slot.appointment" title="{{slot.appointment|json}}">
+        {{slot.appointment.notes}}
+      </div>
+      <div class="appointment-chain-link" *ngIf="isLinkedToPrevious(slot)">
+        PREV
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #throbber>
   <shared-core-throbber [block]="true" text="Loading..."></shared-core-throbber>

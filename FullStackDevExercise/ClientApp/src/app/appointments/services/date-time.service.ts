@@ -39,6 +39,17 @@ export class DateTimeService {
 
     return `${datePart}${formatHtml ? "<sup>" : ""}${dateSuffix}${formatHtml ? "</sup>" : ""} ${date.toLocaleString("month", { month: shortMonth ? "short" : "long" })} ${date.getFullYear()}, ${weekDayPart}`;
   }
+
+  toFriendlyTimeDisplay(start: Date, use24HFormat = true, includeMinutes = true, includeSeconds = false) {
+    let hour = use24HFormat ? start.getHours() : (start.getHours() <= 12 ? start.getHours() : start.getHours() % 12);
+    let amPmSuffix = use24HFormat ? "" : (start.getHours() >= 12 ? "PM" : "AM");
+
+    return `${hour.toString().padStart(2, '0')}${includeMinutes ? ":" + start.getMinutes().toString().padStart(2, '0') : ""}${includeSeconds ? ":" + start.getSeconds() : ""} ${amPmSuffix}`;
+  }
+
+  isWithinTimePeriod(value: Date, from: Date, to: Date) {
+    return value >= from && value <= to;
+  }
 }
 
 export class MonthInfo {
@@ -74,4 +85,8 @@ export class MonthInfo {
 
 export class WeekDay {
   constructor(public id: number, public longName: string, public shortName: string, public isHoliday = false) { }
+}
+
+export class TimeSession {
+
 }
