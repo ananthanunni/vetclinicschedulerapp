@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
-import { GridDataEditViewDialogConfiguration, GridDataEditViewModalComponent } from '../components/grid-data-edit-view-modal/grid-data-edit-view-modal.component';
 import { DialogButton, DialogConfiguration, ModalComponent } from '../components/modal/modal.component';
 import { GridColumn } from '../components/simple-grid/simple-grid.component';
+import { DataEditorDialogService, DataEditViewModalField } from './data-editor-dialog.service';
 
 @Injectable()
 export class GridDialogService {
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private dataEditorDialogService: DataEditorDialogService) { }
 
   deleteConfirm(message: string, title: string): Observable<boolean> {
     let modalRef = this.modalService.open(ModalComponent);
@@ -28,20 +28,10 @@ export class GridDialogService {
   }
 
   saveGridRow<T>(title: string, columns: GridColumn<T>[], data: T, onSave: (data: T) => Observable<boolean>) {
-    let modalRef = this.modalService.open(GridDataEditViewModalComponent);
-    modalRef.componentInstance.config = new GridDataEditViewDialogConfiguration(
+    return this.dataEditorDialogService.editItem<T>(
       title,
-      columns,
+      columns.map(r => new DataEditViewModalField(r.fieldName, r.title, r.type, r.isReadOnly)),
       data,
-      onSave
-    );
-
-    let subject = new Subject<{ success: boolean, data: T }>();
-
-    modalRef.result.then(
-      (r: { success: boolean, data: T }) => { subject.next(r); subject.unsubscribe(); },
-      (r => { subject.next({ success: null, data: null }); subject.unsubscribe(); }));
-
-    return subject;
+      onSave);
   }
 }

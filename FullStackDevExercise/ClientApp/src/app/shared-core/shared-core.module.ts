@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModalModule, NgbToastModule } from "@ng-bootstrap/ng-bootstrap";
 import { FooterComponent } from './components/footer/footer.component';
-import { GridDataEditViewModalComponent } from './components/grid-data-edit-view-modal/grid-data-edit-view-modal.component';
+import { DataEditViewModalComponent } from './components/grid-data-edit-view-modal/grid-data-edit-view-modal.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { SimpleGridComponent } from './components/simple-grid/simple-grid.component';
@@ -17,9 +17,10 @@ import { StorageService } from './services/storage.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ThrobberComponent } from './components/throbber/throbber.component';
 import { GridDialogService } from './services/grid-dialog.service';
+import { DataEditorDialogService } from './services/data-editor-dialog.service';
 
 @NgModule({
-  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, GridDataEditViewModalComponent, ThrobberComponent],
+  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, DataEditViewModalComponent, ThrobberComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -44,11 +45,12 @@ import { GridDialogService } from './services/grid-dialog.service';
     StorageService,
     HttpHelperService,
     DialogService,
-    GridDialogService
+    GridDialogService,
+    DataEditorDialogService
   ],
   entryComponents: [
     ModalComponent,
-    GridDataEditViewModalComponent
+    DataEditViewModalComponent
   ]
 })
 export class SharedCoreModule { }

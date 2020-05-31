@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GridDataEditViewModalComponent } from './grid-data-edit-view-modal.component';
+import { DataEditViewModalComponent } from './grid-data-edit-view-modal.component';
 
 describe('GridDataEditViewModalComponent', () => {
-  let component: GridDataEditViewModalComponent;
-  let fixture: ComponentFixture<GridDataEditViewModalComponent>;
+  let component: DataEditViewModalComponent;
+  let fixture: ComponentFixture<DataEditViewModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GridDataEditViewModalComponent ]
+      declarations: [ DataEditViewModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GridDataEditViewModalComponent);
+    fixture = TestBed.createComponent(DataEditViewModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,8 +7,8 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="formGroup" *ngIf="formGroup">
-    <div *ngFor="let col of config.columns">
-      <div *ngIf="!col.isReadOnly">
+    <div *ngFor="let col of config.fields">
+      <div *ngIf="!col.isHidden">
         <div *ngIf="col.type==='string'">
           <div class="form-group">
             <label for="input_text_{{col.fieldName}}">{{col.title}}:</label>

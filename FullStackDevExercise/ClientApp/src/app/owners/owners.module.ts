@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { OwnerListComponent } from './components/owner-list/owner-list.component';
 import { OwnerService } from './services/owner.service';
 import { OwnerEditorComponent } from './components/owner-editor/owner-editor.component';
+import { OwnerDialogService } from './services/owner-dialog.service';
 
 @NgModule({
   declarations: [OwnerListComponent, HomeComponent, OwnerEditorComponent],
@@ -18,7 +19,8 @@ import { OwnerEditorComponent } from './components/owner-editor/owner-editor.com
     RouterModule.forChild(routes)
   ],
   providers: [
-    OwnerService
+    OwnerService,
+    OwnerDialogService
   ]
 })
 export class OwnersModule { }
