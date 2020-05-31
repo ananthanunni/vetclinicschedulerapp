@@ -8,8 +8,7 @@ import { GridColumn } from '../components/simple-grid/simple-grid.component';
 @Injectable()
 export class GridDialogService {
 
-  constructor(private modalService:NgbModal) { }
-
+  constructor(private modalService: NgbModal) { }
 
   deleteConfirm(message: string, title: string): Observable<boolean> {
     let modalRef = this.modalService.open(ModalComponent);
@@ -41,7 +40,7 @@ export class GridDialogService {
 
     modalRef.result.then(
       (r: { success: boolean, data: T }) => { subject.next(r); subject.unsubscribe(); },
-      (r => { subject.error("canceled"); subject.unsubscribe(); }));
+      (r => { subject.next({ success: null, data: null }); subject.unsubscribe(); }));
 
     return subject;
   }

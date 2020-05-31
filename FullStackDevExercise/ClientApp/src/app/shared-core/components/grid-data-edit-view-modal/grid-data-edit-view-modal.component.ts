@@ -14,7 +14,7 @@ import { DialogService } from '../../services/dialog.service';
 })
 export class GridDataEditViewModalComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(public activeModal: NgbActiveModal, private domSanitizer: DomSanitizer, private dialogService:DialogService) { }
+  constructor(public activeModal: NgbActiveModal, private domSanitizer: DomSanitizer, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.initialize();
@@ -26,8 +26,6 @@ export class GridDataEditViewModalComponent implements OnInit {
   get displayTitle() { return this.domSanitizer.bypassSecurityTrustHtml(this.config.title); };
 
   buttonClicked(button: DialogButton) {
-    //this.activeModal.close({ success: button.value });
-
     if (button.value !== "save") {
       this.activeModal.close({ success: null, data: this.config.data });
       return;
@@ -39,7 +37,7 @@ export class GridDataEditViewModalComponent implements OnInit {
         this.activeModal.close({ success: true, data: this.formGroup.value });
       },
         r => {
-          this.dialogService.showToast("Error saving record.");
+          this.dialogService.showToast("Error saving record.", "error");
         });
   }
 

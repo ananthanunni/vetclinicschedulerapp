@@ -7,9 +7,10 @@ import { SharedCoreModule } from '../shared-core/shared-core.module';
 import { HomeComponent } from './components/home/home.component';
 import { OwnerListComponent } from './components/owner-list/owner-list.component';
 import { OwnerService } from './services/owner.service';
+import { OwnerEditorComponent } from './components/owner-editor/owner-editor.component';
 
 @NgModule({
-  declarations: [OwnerListComponent, HomeComponent],
+  declarations: [OwnerListComponent, HomeComponent, OwnerEditorComponent],
   imports: [
     CommonModule,
     SharedCoreModule,

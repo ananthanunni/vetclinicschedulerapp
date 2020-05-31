@@ -11,7 +11,7 @@ import { GridDialogService } from '../../services/grid-dialog.service';
   styleUrls: ['./simple-grid.component.css']
 })
 export class SimpleGridComponent implements OnInit {
-  constructor(private dialogService: DialogService, private gridDialogService:GridDialogService) { }
+  constructor(private dialogService: DialogService, private gridDialogService: GridDialogService) { }
   tableData: BehaviorSubject<RowDataItem<any>[]> = new BehaviorSubject<RowDataItem<any>[]>([]);
 
   async ngOnInit() {
@@ -48,8 +48,6 @@ export class SimpleGridComponent implements OnInit {
         dataItem.cancelEdit();
       },
         canceled => {
-          this.dialogService.showToast("Error modifying record.", "success");
-
           dataItem.cancelEdit();
         });
   }

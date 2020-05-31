@@ -21,6 +21,9 @@ import { AppointmentsService } from './services/appointments.service';
   providers: [
     DateTimeService,
     AppointmentsService
+  ],
+  entryComponents: [
+    AppointmentEditorComponent
   ]
 })
 export class AppointmentsModule { }
