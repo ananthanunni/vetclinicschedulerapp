@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHelperService } from '../../shared-core/services/http-helper.service';
+import { KnownPetType } from '../../AppConstants';
 
 @Injectable()
 export class PetService {
@@ -13,7 +14,7 @@ export class PetService {
 export class Pet {
   id: number;
   ownerId: number;
-  type: string;
+  type: KnownPetType;
   name: string;
   age: number;
 }

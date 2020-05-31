@@ -7,5 +7,6 @@ namespace FullStackDevExercise.Services
   public interface IAppointmentService
   {
     Task<IEnumerable<AppointmentViewModel>> GetByDate(int year, int month, int date);
+    Task<IEnumerable<MonthlyAppointmentSummaryViewModel>> GetMonthSummary(int year, int month);
   }
 }

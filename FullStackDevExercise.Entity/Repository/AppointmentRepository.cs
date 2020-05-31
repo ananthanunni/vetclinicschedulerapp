@@ -3,6 +3,7 @@ using FullStackDevExercise.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FullStackDevExercise.Data.Repository
@@ -32,6 +33,27 @@ namespace FullStackDevExercise.Data.Repository
       return result;
     }
 
+    public override async Task<bool> UpdateAsync(AppointmentEntity data)
+    {
+      if (data == null) return false;
+
+      var commandDefinition = new CommandDefinition(
+      @$"UPDATE [{tableName}]
+      SET
+        [{nameof(AppointmentEntity.pet_id)}] = @petId,
+        [{nameof(AppointmentEntity.slot_from)}] = @slotFrom,
+        [{nameof(AppointmentEntity.slot_to)}] = @slotTo,
+        [{nameof(AppointmentEntity.notes)}] = @notes
+      WHERE
+        [{nameof(AppointmentEntity.id)}] = @id
+        "
+      , new { @id = data.id, @pet_id = data.pet_id, @slot_from = data.slot_from, @slot_to = data.slot_to, @notes = data.notes });
+
+      var result = await Connection.ExecuteAsync(commandDefinition);
+
+      return result == 1;
+    }
+
     public async Task<IEnumerable<AppointmentEntity>> GetByDate(int year, int month, int date)
     {
       var result = await Connection.QueryAsync<AppointmentEntity>(
@@ -55,11 +77,27 @@ namespace FullStackDevExercise.Data.Repository
       return result;
     }
 
-    private string PadZero(int number) => number.ToString("D2");
-
-    public override Task<bool> UpdateAsync(AppointmentEntity data)
+    public async Task<Dictionary<DateTime, int>> GetMonthlySummary(int year, int month)
     {
-      throw new NotImplementedException();
+      var startDate = new DateTime(year, month + 1, 1);
+      var endDate = new DateTime(year, month + 1, DateTime.DaysInMonth(year, month + 1));
+
+      var result = await Connection.QueryAsync<KeyValuePair<DateTime, int>>(
+        $@"
+SELECT 
+	substr(a.slot_from,0,11) as Key,count(*) as Value
+from
+	appointments a
+group by Key
+	having key BETWEEN @start AND @end
+order by Value
+        ",
+        new { @start = startDate.ToString("yyyy-MM-dd"), @end = endDate.ToString("yyyy-MM-dd") }
+      );
+
+      return result.ToDictionary(x => x.Key, x => x.Value);
     }
+
+    private string PadZero(int number) => number.ToString("D2");
   }
 }

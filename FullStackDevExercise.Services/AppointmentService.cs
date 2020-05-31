@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.VisualBasic;
 
 namespace FullStackDevExercise.Services
 {
@@ -26,12 +27,12 @@ namespace FullStackDevExercise.Services
     IPetCodec petCodec
     )
     {
-      this._appointmentCodec = appointmentCodec;
-      this._appointmentsRepository = appointmentsRepository;
-      this._ownerRepository = ownerRepository;
-      this._ownerCodec = ownerCodec;
-      this._petRepository = petRepository;
-      this._petCodec = petCodec;
+      _appointmentCodec = appointmentCodec;
+      _appointmentsRepository = appointmentsRepository;
+      _ownerRepository = ownerRepository;
+      _ownerCodec = ownerCodec;
+      _petRepository = petRepository;
+      _petCodec = petCodec;
     }
 
     public async Task<IEnumerable<AppointmentViewModel>> GetByDate(int year, int month, int date)
@@ -41,6 +42,13 @@ namespace FullStackDevExercise.Services
       if (result?.Count() == 0) return null;
 
       return _appointmentCodec.Encode(result);
+    }
+
+    public async Task<IEnumerable<MonthlyAppointmentSummaryViewModel>> GetMonthSummary(int year, int month)
+    {
+      var result = await _appointmentsRepository.GetMonthlySummary(year, month);
+
+      return result?.Select(r => new MonthlyAppointmentSummaryViewModel() { Date = r.Key, Count = r.Value });
     }
   }
 }

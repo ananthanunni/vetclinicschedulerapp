@@ -1,7 +1,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-      <appointments-calendar [(date)]="selectedDate" (dateChange)="selectedDateChange($event)"></appointments-calendar>
+      <appointments-calendar
+        [(date)]="selectedDate"
+        (dateChange)="selectedDateChange($event)"
+        (onMonthChanged)="onMonthChanged($event)"
+        [events]="monthlySummary"></appointments-calendar>
+        <shared-core-throbber *ngIf="isLoadingSummary" text="Loading monthly summary..." block="true"></shared-core-throbber>
     </div>
     <div class="col-md-8">
       <appointments-day-schedule-list [date]="selectedDate"></appointments-day-schedule-list>

@@ -1,13 +1,9 @@
-using FullStackDevExercise.Data.Entity;
-using FullStackDevExercise.Data.Repository;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace FullStackDevExercise.Tests.Data.Repository
 {
-  public abstract class BaseRepositoryTest
+  public abstract class BaseRepositoryTest : IDisposable
   {
     private readonly string _testModule;
     protected readonly string DbFile;
@@ -33,15 +29,7 @@ namespace FullStackDevExercise.Tests.Data.Repository
       DbFile);
     }
 
-    private async Task InsertDummyData<TRepository, TEntity>(TRepository repository, IEnumerable<TEntity> data)
-    where TEntity : class, IEntity
-    where TRepository : class, IRepository<TEntity>
-    {
-      foreach (var item in data)
-        await repository.InsertAsync(item);
-    }
-
-    public void Dispose()
+    public virtual void Dispose()
     {
       if (!string.IsNullOrWhiteSpace(DbFile))
         File.Delete(DbFile);

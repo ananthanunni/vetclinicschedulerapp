@@ -2,15 +2,14 @@ using Dapper;
 using FullStackDevExercise.Data.Entity;
 using FullStackDevExercise.Data.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FullStackDevExercise.Tests.Data.Repository
 {
   [TestClass]
-  public class OwnerRepositoryTests : BaseRepositoryTest, IDisposable
+  public class OwnerRepositoryTests : BaseRepositoryTest
   {
     public OwnerRepositoryTests() : base("owner")
     {
@@ -77,11 +76,88 @@ namespace FullStackDevExercise.Tests.Data.Repository
       Assert.AreEqual("fn3", read.ElementAt(2).first_name);
     }
 
+    [TestMethod]
+    public async Task UpdateAsync_WithoutValidId_ShouldReturnFalse()
+    {
+      // Arrange
+      var repo = GetRepository();
+      var data = new OwnerEntity { id = 0, first_name = "first", last_name = "lastName" };
+
+      // Act
+      var result = await repo.UpdateAsync(data);
+
+      // Assert
+      Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public async Task UpdateAsync_NullEntity_ShouldReturnFalse()
+    {
+      // Arrange
+      var repo = GetRepository();
+
+      // Act
+      var result = await repo.UpdateAsync(null);
+
+      // Assert
+      Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public async Task UpdateAsync_Valid_VerifyRecordUpdates()
+    {
+      // Arrange
+      var repo = GetRepository();
+      var data = new OwnerEntity { first_name = "firstName", last_name = "lastName" };
+      var id = await ManualInsert(repo.Connection, data);
+      data.id = id;
+
+      // Act
+      var updateSuccess = await repo.UpdateAsync(new OwnerEntity { id = id, first_name = "firstNameChange", last_name = "lastNameChange" });
+      var updatedEntry = await repo.Connection.QuerySingleOrDefaultAsync<OwnerEntity>
+      (
+        "SELECT * from owners WHERE id=" + id.ToString()
+      );
+
+      // Assert
+      Assert.IsTrue(updateSuccess);
+      Assert.AreEqual(id, updatedEntry.id);
+      Assert.AreEqual("firstNameChange", updatedEntry.first_name);
+      Assert.AreEqual("lastNameChange", updatedEntry.last_name);
+    }
+
+    [TestMethod]
+    public async Task UpdateAsync_NotExistingIdItem_ShouldBeFalse()
+    {
+      // Arrange
+      var repo = GetRepository();
+
+      // Act
+      var updateSuccess = await repo.UpdateAsync(new OwnerEntity { id = 1, first_name = "firstNameChange", last_name = "lastNameChange" });
+      var updatedEntry = await repo.Connection.QuerySingleOrDefaultAsync<OwnerEntity>
+      (
+        "SELECT * from owners WHERE id=" + 1.ToString()
+      );
+
+      // Assert
+      Assert.IsFalse(updateSuccess);
+      Assert.IsNull(updatedEntry);
+    }
+
     private OwnerRepository GetRepository()
     {
       InitializeDatabase();
       return new OwnerRepository(new System.Data.SQLite.SQLiteConnection($"Data Source = {DbFile};"));
     }
+
+    private async Task<int> ManualInsert(IDbConnection connection, OwnerEntity data) =>
+      await connection.ExecuteScalarAsync<int>($@"
+        INSERT INTO [owners]
+          ({nameof(OwnerEntity.first_name)}, {nameof(OwnerEntity.last_name)})
+        VALUES
+          ('{data.first_name}', '{data.last_name}');
+          select last_insert_rowid();
+      ");
   }
 }
 

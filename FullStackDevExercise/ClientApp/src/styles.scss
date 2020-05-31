@@ -63,6 +63,16 @@ footer {
         box-shadow: #d5881d 0px 0px 12px inset;
       }
 
+      .events-count {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #de0000;
+        padding: 0 3px;
+        color: #fff;
+        box-shadow: #616161 3px 3px 6px;
+      }
+
       .cell-content {
         position: relative;
         padding: 18px 6px;

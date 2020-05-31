@@ -21,6 +21,19 @@ export class AppointmentsService {
         })
       );
   }
+
+  getSummaryForMonth(year: number, month: number) {
+    return this.http.get<MonthlySummaryItem[]>(this.http.resolveApiUrl("appointments", "summary", year, month))
+      .pipe(
+        map(collection => {
+          return (collection || [])
+            .map(r => {
+              r.date = new Date(r.date);
+              return r;
+            })
+        })
+      );
+  }
 }
 
 export class Appointment {
@@ -32,4 +45,9 @@ export class Appointment {
 
   pet: Pet;
   owner: Owner;
+}
+
+export class MonthlySummaryItem {
+  date: Date;
+  count: number;
 }

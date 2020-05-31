@@ -5,3 +5,5 @@ export class AppConstants {
   static readonly breaks = [{ begin: 1230, end: 1330 }, { begin: 1630, end: 1500 }];
   static readonly slotDurationInMinutes = 15;
 }
+
+export type KnownPetType= "dog" | "cat";

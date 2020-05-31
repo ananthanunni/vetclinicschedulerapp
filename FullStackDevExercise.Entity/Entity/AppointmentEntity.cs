@@ -2,7 +2,7 @@ namespace FullStackDevExercise.Data.Entity
 {
   public class AppointmentEntity:BaseEntity, IEntity
   {
-    public long? owner_id;
+    public long? owner_id { get; set; }
 
     public long pet_id { get; set; }
     public string slot_from { get; set; }

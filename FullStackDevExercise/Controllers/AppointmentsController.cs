@@ -25,5 +25,11 @@ namespace FullStackDevExercise.Controllers
 
       return Ok(result);
     }
+
+    [Route("summary/{year}/{month}")]
+    public async Task<ActionResult<IEnumerable<MonthlyAppointmentSummaryViewModel>>> GetSummaryForMonth(int year, int month)
+    {
+      return Ok(await _appointmentsService.GetMonthSummary(year, month));
+    }
   }
 }
