@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import { DataProviderRequesParameters, GridAction, GridColumn, SimpleGridConfiguration } from '../../../shared-core/components/simple-grid/simple-grid.component';
-import { OwnerService, Owner } from '../../services/owner.service';
+import { Owner, OwnerService } from '../../services/owner.service';
 
 @Component({
   selector: 'owners-owner-list',
@@ -27,7 +26,7 @@ export class OwnerListComponent implements OnInit {
     config.canDelete = true;
     config.canEdit = true;
     config.columns = [
-      new GridColumn<Owner>("Id", "id", "numeric", true),
+      new GridColumn<Owner>("Id", "id", "number", true),
       new GridColumn<Owner>("First Name", "firstName"),
       new GridColumn<Owner>("Last Name", "lastName"),
     ];

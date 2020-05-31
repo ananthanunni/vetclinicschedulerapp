@@ -7,11 +7,9 @@ import { SharedCoreModule } from '../shared-core/shared-core.module';
 import { HomeComponent } from './components/home/home.component';
 import { OwnerListComponent } from './components/owner-list/owner-list.component';
 import { OwnerService } from './services/owner.service';
-import { OwnerEditorComponent } from './components/owner-editor/owner-editor.component';
-import { OwnerDialogService } from './services/owner-dialog.service';
 
 @NgModule({
-  declarations: [OwnerListComponent, HomeComponent, OwnerEditorComponent],
+  declarations: [OwnerListComponent, HomeComponent],
   imports: [
     CommonModule,
     SharedCoreModule,
@@ -20,7 +18,6 @@ import { OwnerDialogService } from './services/owner-dialog.service';
   ],
   providers: [
     OwnerService,
-    OwnerDialogService
   ]
 })
 export class OwnersModule { }

@@ -106,10 +106,11 @@ footer {
 
     .schedule-cell {
       background-image: linear-gradient(270deg, #d3ffbc, #defbcf);
-      border: 1px solid white;
+      border: 1px solid #cdecbd;
       width: 100%;
       height: 66px;
       padding: 6px 3px;
+      margin: 3px 0;
       transition-duration: 0.3s;
       border-radius: 6px;
 
@@ -119,7 +120,9 @@ footer {
       }
 
       &.taken {
-        background-image: linear-gradient(270deg, #ffe7e7, #ffcfcf);
+        background-image: none;
+        background-color: #ffd8d8;
+        border-color: #ff8686;
       }
 
 
@@ -128,17 +131,15 @@ footer {
         height: 100%;
 
         .appointment-chain-link {
-          /*position: absolute;
-          background: #ff2222;
-          height: 5px;
-          bottom: -6px;
-          width: 100%;
-          box-shadow: #ff5f5f -1px -3px 6px;*/
+          background: #ffd8d8;
           position: absolute;
           color: #ff2b2b;
-          top: -9px;
+          top: -7.5px;
           text-shadow: #a78a8a 2px 2px 3px;
           left: -9px;
+          padding: 20px 0;
+          border: 1px solid;
+          border-width: 1px 0;
         }
 
         .appointment-info {
