@@ -37,7 +37,7 @@ export class AppointmentEditorModalComponent implements OnInit {
 
   buttonClicked(button: DialogButton) {
     debugger;
-    if (!button.value || button.value !== true || this.formGroup.pristine) {
+    if (!button.value || button.value !== true) {
       this.activeModal.close({ success: null, data: this.formGroup.value });
       return;
     }
