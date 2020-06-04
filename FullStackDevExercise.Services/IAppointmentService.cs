@@ -10,5 +10,6 @@ namespace FullStackDevExercise.Services
     Task<IEnumerable<MonthlyAppointmentSummaryViewModel>> GetMonthSummary(int year, int month);
     Task<AppointmentViewModel> Save(AppointmentViewModel appointment);
     Task<AppointmentViewModel> GetById(int id);
+    Task<bool> DeleteAsync(long id);
   }
 }

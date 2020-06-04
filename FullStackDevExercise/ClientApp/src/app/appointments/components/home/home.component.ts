@@ -8,7 +8,7 @@ import { Appointment, AppointmentsService, MonthlySummaryItem, Slot } from '../.
 import { DateTimeService } from '../../services/date-time.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'appointments-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -19,41 +19,42 @@ export class HomeComponent implements OnInit {
   private readonly lastViewedDateKey = "lastViewedDate";
 
   appointments: Appointment[];
-  appointmentId: number;
+  selectedAppointmentId: number;
 
   isCreateNewAppointment = false;
 
   freeSlots: Slot[];
   formGroup = new FormGroup({
     "slotFrom": new FormControl(null, [Validators.required]),
-    "slotTo":new FormControl(null, Validators.required)
+    "slotTo": new FormControl(null, Validators.required)
   });
+  isDeletingAppointment: boolean;
 
   constructor(
     private appointmentsService: AppointmentsService,
     private dialogService: DialogService,
     private appointmentDialogService: AppointmentEditorDialogService,
     private dateTimeService: DateTimeService,
-    private storageService:StorageService,
+    private storageService: StorageService,
     private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
     let lastViewedDateValue = this.storageService.getValue(this.lastViewedDateKey);
-    this.selectedDate = lastViewedDateValue?new Date(lastViewedDateValue): new Date();
+    this.selectedDate = lastViewedDateValue ? new Date(lastViewedDateValue) : new Date();
   }
 
   onAppointmentSelected(appointmentId: number) {
-    this.appointmentId = appointmentId;
+    this.selectedAppointmentId = appointmentId;
     this.isCreateNewAppointment = !appointmentId;
   }
 
   onSelectedDateChange(date: Date) {
-    this.appointmentId = null;
+    this.selectedAppointmentId = null;
     this.storageService.setValue(this.lastViewedDateKey, date.toISOString());
   }
 
-  beginAppointmentCreation() {
+  onCreateAppointmentClicked() {
     let freeSlots = this.appointmentsService.getSlotsForDay(this.selectedDate)?.filter(r => !r.isInactive && this.appointments.findIndex(a => this.dateTimeService.isWithinTimePeriod(r.start, a.slotFrom, a.slotTo)));
     this.freeSlots = freeSlots;
 
@@ -66,15 +67,41 @@ export class HomeComponent implements OnInit {
       .subscribe(r => {
         if (!r) return;
 
-        debugger;
-
-        // Force refresh
-        let date = new Date(this.selectedDate);
-        this.selectedDate = null;
-        this.selectedDate = date;
-
-        this.onMonthChanged({month:this.selectedDate.getMonth(), year:this.selectedDate.getFullYear()});
+        this.refreshComponents();
       });
+  }
+
+  onCancelAppointmentClicked() {
+    this.dialogService.showDeleteConfirmation()
+      .subscribe(
+        r => {
+          if (r == true)
+            this.deleteAppointment(this.selectedAppointmentId);
+        }
+      );
+  }
+
+  private deleteAppointment(appointmentId: number) {
+    this.isDeletingAppointment = true;
+    this.appointmentsService.delete(this.selectedAppointmentId)
+      .subscribe(
+        (r) => {
+          this.dialogService.showToast("Appointment deleted successfully.", "info");
+
+          this.refreshComponents();
+        },
+        (r) => this.dialogService.showToast("Error deleting appointment.", "error"),
+        () => { this.selectedAppointmentId = null; this.isDeletingAppointment = false; }
+      );
+  }
+
+  private refreshComponents() {
+    // Force refresh
+    let date = new Date(this.selectedDate);
+    this.selectedDate = null;
+    this.selectedDate = date;
+
+    this.onMonthChanged({ month: this.selectedDate.getMonth(), year: this.selectedDate.getFullYear() });
   }
 
   onMonthChanged(month: { year: number, month: number }) {

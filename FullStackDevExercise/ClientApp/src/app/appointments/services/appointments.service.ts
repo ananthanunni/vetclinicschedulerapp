@@ -4,6 +4,7 @@ import { AppConstants } from '../../AppConstants';
 import { HttpHelperService } from '../../shared-core/services/http-helper.service';
 import { Owner } from '../../shared-services/services/owner.service';
 import { Pet } from '../../shared-services/services/pet.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppointmentsService {
@@ -88,10 +89,14 @@ export class AppointmentsService {
   }
 
   save(appointment: Appointment) {
-    let data:any = appointment;
+    let data: any = appointment;
     data.slotFrom = appointment.slotFrom.toJSON();
     data.slotTo = appointment.slotTo.toJSON();
     return this.http.post<Appointment, Appointment>(this.http.resolveApiUrl("appointments"), data);
+  }
+
+  delete(appointmentId: number) {
+    return this.http.delete<boolean>(this.http.resolveApiUrl("appointments", appointmentId));
   }
 }
 

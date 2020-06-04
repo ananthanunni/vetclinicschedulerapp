@@ -1,25 +1,31 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-12 col-md-4">
       <appointments-calendar [(date)]="selectedDate"
                              (dateChange)="onSelectedDateChange($event)"
                              (onMonthChanged)="onMonthChanged($event)"
                              [events]="monthlySummary"></appointments-calendar>
       <shared-core-throbber *ngIf="isLoadingSummary" text="Loading monthly summary..." block="true"></shared-core-throbber>
     </div>
-    <div class="col-md-8">
+    <div class="col-sm-12 col-md-8">
       <h2>
         Appointments for <span class="text-info" [innerHtml]="selectedDateDisplay"></span>
       </h2>
       <div class="mb-2">
-        <button class="btn btn-success" (click)="beginAppointmentCreation()">
+        <button class="btn btn-success" (click)="onCreateAppointmentClicked()">
           <span class="fa fa-plus"></span>
           New appointment...
-        </button>        
+        </button>
         &nbsp;
-        <button class="btn btn-danger" [disabled]="!appointmentId">
-          <span class="fa fa-trash"></span>
-          Cancel appointment
+        <button class="btn btn-danger" [disabled]="!selectedAppointmentId || isDeletingAppointment" (click)="onCancelAppointmentClicked()">
+          <span *ngIf="isDeletingAppointment">
+            <span class="fa fa-spinner fa-spin"></span>
+            Canceling appointment...
+          </span>
+          <span *ngIf="!isDeletingAppointment">
+            <span class="fa fa-trash"></span>
+            Cancel appointment
+          </span>
         </button>
       </div>
       <appointments-day-schedule-list [(appointments)]="appointments"

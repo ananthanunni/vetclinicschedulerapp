@@ -49,5 +49,9 @@ namespace FullStackDevExercise.Controllers
 
       return result != null ? Created(Url.Action(nameof(Get), new { id = result.Id }), result) as ActionResult : BadRequest();
     }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<ActionResult> Delete(long id) => Ok(await _appointmentsService.DeleteAsync(id));
   }
 }

@@ -54,5 +54,12 @@ namespace FullStackDevExercise.Services
         return appointment.Id > 0 ? appointment : null;
       }
     }
+
+    public async Task<bool> DeleteAsync(long id)
+    {
+      var result = await _appointmentsRepository.DeleteAsync(id);
+
+      return result == 1;
+    }
   }
 }
