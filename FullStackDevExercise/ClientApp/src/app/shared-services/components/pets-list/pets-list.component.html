@@ -1,10 +1,22 @@
-  <div *ngIf="!isLoading; else throbber" class="row">
-    <div class="col">
-      <div class="pets-list-container">
-        <shared-services-pets-list-item *ngFor="let item of collection" [pet]="item"></shared-services-pets-list-item>
-      </div>
+<div *ngIf="!isLoading; else throbber" class="row">
+  <div class="col">
+    <div class="">
+      <button class="btn btn-success" (click)="createPet()" [attr.disabled]="isSavingPet?true:null">
+        <span *ngIf="isSavingPet">
+          <span class="fa fa-spinner fa-spin"></span>
+          Saving...
+        </span>
+        <span *ngIf="!isSavingPet">
+          <span class="fa fa-plus"></span>
+          New Pet...
+        </span>
+      </button>
+    </div>
+    <div class="pets-list-container d-flex flex-wrap">
+      <shared-services-pets-list-item *ngFor="let item of collection" [pet]="item" (onDeleteRequested)="onDeleteRequested($event)"></shared-services-pets-list-item>
     </div>
   </div>
+</div>
 
 <ng-template #throbber>
   <div class="row">

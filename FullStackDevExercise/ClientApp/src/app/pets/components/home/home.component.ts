@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MetaService } from '../../../shared-core/services/meta.service';
 import { StorageService } from '../../../shared-core/services/storage.service';
-import { Owner } from '../../../shared-services/services/owner.service';
 
 @Component({
   selector: 'pets-home',
@@ -13,17 +12,15 @@ import { Owner } from '../../../shared-services/services/owner.service';
 export class HomeComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription;
   ownerId: number;
-  currentOwner: Owner;
+  ownerName: string;
 
   constructor(private router:Router,private activatedRoute: ActivatedRoute, private storageService: StorageService, private metaService:MetaService) { }
 
   ngOnInit(): void {
-    this.currentOwner = JSON.parse(this.storageService.getValue("selectedOwner"));
     this.routeSubscription = this.activatedRoute.params.subscribe(r => {
       this.ownerId = parseInt(r.ownerId);
-
-      if (this.ownerId !== this.currentOwner.id)
-        this.router.navigate(["owners"]);
+      debugger;
+      this.ownerName = r.ownerName;
     });
 
     this.metaService.setTitle(`Pets List`);

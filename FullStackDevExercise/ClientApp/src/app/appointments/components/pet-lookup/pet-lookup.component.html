@@ -17,15 +17,25 @@
       </div>
     </div>
     <div class="form-group">
-      <label>
+      <label class="flex-grow-1">
         <span class="fa fa-check-circle text-success" *ngIf="selectedPetId||0>0"></span>
         Pet
       </label>
-      <select class="form-control" [attr.disabled]="owner?.id>0?null:true" (change)="onSelectedPetChanged($event)" [(ngModel)]="selectedPetId">
-        <option *ngFor="let pet of petCollection||[]" [ngValue]="pet.id">
-          {{pet.name}} ({{pet.type}}, age: {{pet.age}})
-        </option>
-      </select>
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <select class="form-control" [attr.disabled]="owner?.id>0?null:true" (change)="onSelectedPetChanged($event)" [(ngModel)]="selectedPetId">
+            <option *ngFor="let pet of petCollection||[]" [ngValue]="pet.id">
+              {{pet.name}} ({{pet.type}}, age: {{pet.age}})
+            </option>
+          </select>
+        </div>
+        <div>
+          <button class="btn btn-xs btn-success" [attr.disabled]="isCreatingPet||!owner?true:null" (click)="createPet()">
+            <span *ngIf="isCreatingPet" class="fa fa-spinner fa-spin"></span>
+            <span *ngIf="!isCreatingPet" class="fa fa-plus"></span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -7,11 +7,11 @@ import { DialogService } from './dialog.service';
 @Injectable()
 export class GridDialogService {
 
-  constructor(private dialogService:DialogService, private dataEditorDialogService: DataEditorDialogService) { }
+  constructor(private dialogService: DialogService, private dataEditorDialogService: DataEditorDialogService) { }
 
-  deleteConfirm(message: string, title: string): Observable<boolean> {
+  deleteConfirm(message = "Are you sure you wish to delete this item?", title: string = "Confirm"): Observable<boolean> {
     return this.dialogService.showDeleteConfirmation(
-      "Are you sure you wish to delete this item?"
+      message, title
     );
   }
 

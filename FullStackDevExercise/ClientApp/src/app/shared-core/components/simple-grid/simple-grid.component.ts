@@ -114,7 +114,7 @@ class RowDataItem<T> {
 }
 
 export class GridColumn<T> {
-  constructor(public title: string, public fieldName: string, public type: "string" | "number" | "date" = "string", public isReadOnly = false, public templateProvider: (data: T) => string = (data: T) => data[this.fieldName]) { }
+  constructor(public title: string, public fieldName: string, public type: "string" | "number" = "string", public isReadOnly = false, public templateProvider: (data: T) => string = (data: T) => data[this.fieldName]) { }
 }
 
 export class SimpleGridConfiguration<T> {

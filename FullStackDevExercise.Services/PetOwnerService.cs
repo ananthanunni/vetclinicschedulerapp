@@ -56,8 +56,8 @@ namespace FullStackDevExercise.Services
     {
       if (model.Id == 0)
       {
-        await _petRepo.InsertAsync(_petCodec.ForOwnerId(ownerId).Decode(model));
-        return model.Id == 0;
+        model.Id = await _petRepo.InsertAsync(_petCodec.ForOwnerId(ownerId).Decode(model));
+        return model.Id > 0;
       }
       else
       {

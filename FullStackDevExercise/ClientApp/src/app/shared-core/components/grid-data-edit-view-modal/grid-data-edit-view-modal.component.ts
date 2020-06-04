@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { DataEditViewModalConfiguration } from '../../services/data-editor-dialog.service';
+import { DataEditViewModalConfiguration, DataEditViewModalField, ListOption } from '../../services/data-editor-dialog.service';
 import { DialogService } from '../../services/dialog.service';
 import { DialogButton } from '../modal/modal.component';
 
@@ -47,9 +47,20 @@ export class DataEditViewModalComponent implements OnInit {
 
     for (let item of this.config.fields) {
       let dataItem = this.config.data[item.fieldName];
-      controls[item.fieldName] = new FormControl(dataItem);
+      controls[item.fieldName] = new FormControl(dataItem, item.validators);
     }
 
     this.formGroup = new FormGroup(controls);
+
+    for (let saveButton of this.config.buttons.filter(r => r.value === "save"))
+      saveButton.enabled = () => this.formGroup.valid;
+  }
+
+  getType(field: DataEditViewModalField) {
+    if (field.type === "number") return "number";
+
+    if (Array.isArray(field.type)) return "select";
+
+    return "string";
   }
 }

@@ -1,4 +1,6 @@
 <div class="pet-list-item" [ngClass]="pet.type">
+  <span class="fa fa-trash delete-icon" *ngIf="!pet['isDeleting']" (click)="onDeletePetClicked()" title="Delete this item"></span>
+  <span class="fa fa-spinner fa-spin delete-icon" *ngIf="pet['isDeleting']"></span>
   <h1 class="pet-name">{{pet.name}}</h1>
   <span class="pet-age">
     {{pet.age||'N/A'}}

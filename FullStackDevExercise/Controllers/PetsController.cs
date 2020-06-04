@@ -1,6 +1,7 @@
 using FullStackDevExercise.Services;
 using FullStackDevExercise.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace FullStackDevExercise.Controllers
       var isSuccess = await _petOwnerService.SavePetAsync(ownerId, model);
 
       return isSuccess ?
-      (isInsert ? Created(new Uri(""), model) as ActionResult : BadRequest() as ActionResult)
+      (isInsert ? Created(Url.Action(nameof(Get), new { ownerId=ownerId, id=model.Id  }), model) as ActionResult : BadRequest() as ActionResult)
       : BadRequest();
     }
 

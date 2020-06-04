@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Pet } from '../../../shared-services/services/pet.service';
+import { DialogService } from '../../../shared-core/services/dialog.service';
 
 @Component({
   selector: 'shared-services-pets-list-item',
@@ -8,12 +9,24 @@ import { Pet } from '../../../shared-services/services/pet.service';
 })
 export class PetsListItemComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialogService:DialogService) { }
 
   @Input("pet")
   pet: Pet;
 
+  @Output("onDeleteRequested")
+  onDeleteRequested = new EventEmitter<Pet>();
+
   ngOnInit(): void {
   }
 
+  onDeletePetClicked() {
+    this.dialogService.showDeleteConfirmation()
+      .subscribe(
+        r => {
+          if (r)
+            this.onDeleteRequested.emit(this.pet);
+        }
+      );    
+  }
 }

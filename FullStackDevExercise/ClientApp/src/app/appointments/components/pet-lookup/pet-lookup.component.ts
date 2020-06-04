@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OwnerSelectorModalComponent, OwnerSelectorModalConfiguration } from '../owner-selector-modal/owner-selector-modal.component';
-import { OwnerService, Owner } from '../../../shared-services/services/owner.service';
-import { PetService, Pet } from '../../../shared-services/services/pet.service';
 import { DialogService } from '../../../shared-core/services/dialog.service';
+import { Owner } from '../../../shared-services/services/owner.service';
+import { Pet, PetService } from '../../../shared-services/services/pet.service';
+import { OwnerSelectorModalComponent, OwnerSelectorModalConfiguration } from '../owner-selector-modal/owner-selector-modal.component';
 
 @Component({
   selector: 'appointments-pet-lookup',
@@ -14,7 +14,8 @@ import { DialogService } from '../../../shared-core/services/dialog.service';
 export class PetLookupComponent implements OnInit {
   petCollection: Pet[];
   selectedPetId: number;
-  constructor(private ownerService: OwnerService, private petService: PetService, private dialogService: DialogService, private ngbModal: NgbModal) { }
+  isCreatingPet: boolean;
+  constructor(private petService: PetService, private dialogService: DialogService, private ngbModal: NgbModal) { }
 
   @Input("group")
   group: FormGroup;
@@ -50,14 +51,37 @@ export class PetLookupComponent implements OnInit {
       .finally();
   }
 
-  loadPetsData() {
+  createPet() {
+    let newPet = new Pet();
+    newPet.id = 0;
+    newPet.ownerId = this.owner?.id;
+    newPet.type = "dog";
+
+    this.petService.save(newPet)
+      .subscribe(
+        r => {
+          if (!r.success) return;
+          this.loadPetsData(newPet.id);
+        },
+        e => {
+
+        },
+        () => {
+          this.isCreatingPet = false;
+        }
+      );
+  }
+
+  loadPetsData(defaultSelection: number = null) {
     this.petCollection = [];
-    this.selectedPetId = null;
+    this.selectedPetId = defaultSelection;
     this.petService.getPetsForOwner(this.owner.id)
       .subscribe(
         r => {
           this.petCollection = r;
-          this.selectedPetId = r?.length > 0 ? r[0].id : null;
+
+          if (!this.selectedPetId)
+            this.selectedPetId = r?.length > 0 ? r[0].id : null;
 
           this.onSelectedPetChanged(this.selectedPetId);
         },

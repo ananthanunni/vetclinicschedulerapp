@@ -14,8 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private meta: MetaService, private router: Router, private storageService: StorageService) { }
 
   onViewPetsRequested(owner: Owner) {
-    this.storageService.setValue("selectedOwner", JSON.stringify(owner));
-    this.router.navigate(["owners", owner.id, "pets"]);
+    this.router.navigate(["owners", owner.id, "pets",`${owner.firstName} ${owner.lastName}`]);
   }
 
   ngOnInit(): void {

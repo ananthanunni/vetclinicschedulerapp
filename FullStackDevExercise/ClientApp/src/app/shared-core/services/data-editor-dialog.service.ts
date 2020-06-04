@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DataEditViewModalComponent } from '../components/grid-data-edit-view-modal/grid-data-edit-view-modal.component';
 import { DialogConfiguration, DialogButton } from '../components/modal/modal.component';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ValidatorFn, AbstractControlOptions } from '@angular/forms';
 
 @Injectable()
 export class DataEditorDialogService {
@@ -12,12 +12,15 @@ export class DataEditorDialogService {
 
   editItem<T>(title: string, columns: DataEditViewModalField[], data: T, onSave: (data: T) => Observable<boolean>) {
     let modalRef = this.modalService.open(DataEditViewModalComponent);
-    modalRef.componentInstance.config = new DataEditViewModalConfiguration(
+    let modalConfig: DataEditViewModalConfiguration = new DataEditViewModalConfiguration(
       title,
       columns,
       data,
-      onSave
+      onSave,
+      (data: FormGroup) => data.valid
     );
+
+    modalRef.componentInstance.config = modalConfig;
 
     let subject = new Subject<{ success: boolean, data: T }>();
 
@@ -35,25 +38,34 @@ export class DataEditViewModalConfiguration extends DialogConfiguration {
     public fields: DataEditViewModalField[],
     public data: any,
     public onSave: (data: any) => Observable<any>,
-    canSave: (data: FormGroup, ) => boolean = (data: FormGroup) => true,
+    public canSave: (data: FormGroup, ) => boolean = (data: FormGroup) => true,
     additionalButtons: DialogButton[] = null,
   ) {
     super("", title, onSave != null ?
       [
-        DataEditViewModalConfiguration.saveButton,
-        DataEditViewModalConfiguration.cancelButton
+        DataEditViewModalConfiguration.saveButton(),
+        DataEditViewModalConfiguration.cancelButton()
       ] :
-      [DataEditViewModalConfiguration.closeButton], true);
+      [DataEditViewModalConfiguration.closeButton()], true);
 
     if (additionalButtons)
       additionalButtons.forEach(r => this.buttons.push(r));
   }
 
-  static readonly closeButton: DialogButton = new DialogButton("cancel", false, "fa fa-times", "Close", false);
-  static readonly cancelButton: DialogButton = new DialogButton("cancel", false, "fa fa-times", "Close");
-  static readonly saveButton: DialogButton = new DialogButton("save", true, "fa fa-save", "Save");
+  static closeButton(): DialogButton { return new DialogButton("cancel", false, "fa fa-times", "Close", false); }
+  static cancelButton(): DialogButton { return new DialogButton("cancel", false, "fa fa-times", "Close"); }
+  static saveButton(): DialogButton { return new DialogButton("save", true, "fa fa-save", "Save"); }
 }
 
 export class DataEditViewModalField {
-  constructor(public fieldName: string, public title: string, public type: "string" | "number" | "date" = "string", public isHidden = false, ) { }
+  constructor(
+    public fieldName: string,
+    public title: string,
+    public type: "string" | "number" | ListOption[] = "string",
+    public isHidden = false,
+    public validators: ValidatorFn | ValidatorFn[] | AbstractControlOptions = null) { }
+}
+
+export class ListOption {
+  constructor(public text: string, public value: string) { }
 }

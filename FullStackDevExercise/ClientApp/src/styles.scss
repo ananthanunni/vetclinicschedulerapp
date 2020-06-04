@@ -236,6 +236,21 @@ footer {
       box-shadow: rgba(146, 145, 145, 0.66) 6px 6px 6px;
     }
 
+    .delete-icon {
+      right: 3px;
+      top: 3px;
+      font-size: x-large;
+      position: absolute;
+      transition-duration: 0.3s;
+      color: #fff;
+      text-shadow: #333 3px 3px 6px;
+      cursor:pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
     .pet-name {
       font-weight: 300;
       text-overflow: ellipsis;
