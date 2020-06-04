@@ -27,7 +27,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\AppConstants.ts" />
     <None Remove="ClientApp\src\app\appointments\appointments.routes.ts" />
-    <None Remove="ClientApp\src\app\owners\components\owner-list\Owner.ts" />
+    <None Remove="ClientApp\src\app\shared-services\components\owner-list\Owner.ts" />
     <None Remove="ClientApp\src\app\owners\owners.routes.ts" />
     <None Remove="ClientApp\src\app\pets\pets.routes.ts" />
   </ItemGroup>
@@ -40,12 +40,13 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\AppConstants.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\appointments\appointments.routes.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\owners\components\owner-list\Owner.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\owners\owners.routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\pets\pets.routes.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\owners\services\" />
+    <Folder Include="ClientApp\src\app\pets\services\" />
     <Folder Include="ClientApp\src\assets\NewFolder\" />
   </ItemGroup>
 

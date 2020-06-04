@@ -18,6 +18,16 @@ namespace FullStackDevExercise.Controllers
       _appointmentsService = GetService<IAppointmentService>();
     }
 
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<ActionResult<AppointmentViewModel>> Get(int id)
+    {
+      AppointmentViewModel result = await _appointmentsService.GetById(id);
+
+      return result != null ? Ok(result) as ActionResult : NotFound();
+    }
+
+
     [Route("{year}/{month}/{date}")]
     public async Task<ActionResult<IEnumerable<AppointmentViewModel>>> GetByDate(int year, int month, int date)
     {
@@ -30,6 +40,14 @@ namespace FullStackDevExercise.Controllers
     public async Task<ActionResult<IEnumerable<MonthlyAppointmentSummaryViewModel>>> GetSummaryForMonth(int year, int month)
     {
       return Ok(await _appointmentsService.GetMonthSummary(year, month));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<AppointmentViewModel>> Post(AppointmentViewModel appointment)
+    {
+      var result = await _appointmentsService.Save(appointment);
+
+      return result != null ? Created(Url.Action(nameof(Get), new { id = result.Id }), result) as ActionResult : BadRequest();
     }
   }
 }

@@ -1,0 +1,8 @@
+<div>
+  <appointments-day-schedule-list
+    [date]="date"
+    [appointments]="appointments"
+    [isSlotPickerMode]="true"
+    [(selectedSlots)]="selectedSlots"
+    (selectedSlotsChange)="onSelectedSlotsChanged($event)"></appointments-day-schedule-list>
+</div>

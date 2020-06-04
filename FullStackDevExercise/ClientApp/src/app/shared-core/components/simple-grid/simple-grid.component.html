@@ -1,9 +1,20 @@
 <div *ngIf="configuration">
-  <div class="row pb-1">
-    <!--<div class="col text-right">
-      <button class="btn btn-success" *ngIf="configuration.canAdd">
+  <div class="d-flex mb-1">
+    <div class="flex-grow-1">
+      <button class="btn btn-success" *ngIf="configuration.canCreate" (click)="onCreateRequested()">
         <span class="fa fa-plus"></span>
+        Create new...
       </button>
+    </div>
+    <!--<div class="flex-shrink-1">
+      <div class="input-group mb-2 mr-sm-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <span class="fa fa-search"></span>
+          </div>
+        </div>
+        <input type="text" class="form-control" placeholder="Search...">
+      </div>
     </div>-->
   </div>
   <table class="table table-bordered table-striped table-hover">
@@ -29,7 +40,7 @@
             {{col.templateProvider(dataItem.data)}}
           </span>
         </td>
-        <td *ngIf="hasActions()" width="240">
+        <td *ngIf="hasActions()">
           <span *ngIf="!dataItem.isEditing">
             <span *ngIf="configuration.canEdit">
               <button class="btn btn-sm btn-primary" (click)="onEditRequested(dataItem)" title="Edit">
@@ -37,12 +48,14 @@
               </button>
               &nbsp;
             </span>
-            <button class="btn btn-sm btn-danger" *ngIf="configuration.canDelete" (click)="onDeleteRequested(dataItem)" title="Delete">
-              <span class="fa fa-trash"></span>
-            </button>
+            <span *ngIf="configuration.canDelete">
+              &nbsp;
+              <button class="btn btn-sm btn-danger" *ngIf="configuration.canDelete" (click)="onDeleteRequested(dataItem)" title="Delete">
+                <span class="fa fa-trash"></span>
+              </button>
+            </span>
 
             <span *ngFor="let action of configuration.actions">
-              &nbsp;
               <button class="btn-sm" [ngClass]="action.buttonCss" (click)="action.onClick(dataItem.data)">
                 <span [ngClass]="action.iconCss"></span>
                 {{action.label}}

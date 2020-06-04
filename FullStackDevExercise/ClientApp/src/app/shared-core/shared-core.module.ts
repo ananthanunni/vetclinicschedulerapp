@@ -18,9 +18,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { ThrobberComponent } from './components/throbber/throbber.component';
 import { GridDialogService } from './services/grid-dialog.service';
 import { DataEditorDialogService } from './services/data-editor-dialog.service';
+import { ItemLookupComponent } from './components/item-lookup/item-lookup.component';
 
 @NgModule({
-  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, DataEditViewModalComponent, ThrobberComponent],
+  declarations: [NavBarComponent, FooterComponent, SimpleGridComponent, ModalComponent, DataEditViewModalComponent, ThrobberComponent, ItemLookupComponent],
   imports: [
     CommonModule,
     RouterModule,

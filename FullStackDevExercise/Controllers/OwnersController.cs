@@ -1,6 +1,7 @@
 using FullStackDevExercise.Services;
 using FullStackDevExercise.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -40,12 +41,9 @@ namespace FullStackDevExercise.Controllers
     public async Task<ActionResult<OwnerViewModel>> Post(OwnerViewModel model)
     {
       model.Id = 0;
-      var isInsert = model.Id == 0;
       var isSuccess = await _petOwnerService.SaveOwnerAsync(model);
 
-      return isSuccess ?
-      (isInsert ? Created(new Uri(""), model) as ActionResult : BadRequest() as ActionResult)
-      : BadRequest();
+      return isSuccess ? Created(Url.Action(nameof(Get), new { id = model.Id }), model) as ActionResult : BadRequest() as ActionResult;
     }
 
     [HttpPut]

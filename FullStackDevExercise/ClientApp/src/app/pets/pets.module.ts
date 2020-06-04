@@ -1,24 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { routes } from './pets.routes';
-import { PetsListComponent } from './components/pets-list/pets-list.component';
-import { PetsListItemComponent } from './components/pets-list-item/pets-list-item.component';
 import { SharedCoreModule } from '../shared-core/shared-core.module';
+import { SharedServicesModule } from '../shared-services/shared-services.module';
 import { HomeComponent } from './components/home/home.component';
-import { PetService } from './services/pet.service';
+import { routes } from './pets.routes';
 
 
 
 @NgModule({
-  declarations: [HomeComponent, PetsListComponent, PetsListItemComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     SharedCoreModule,
+    SharedServicesModule,
     RouterModule.forChild(routes)
   ],
   providers: [
-    PetService
   ]
 })
 export class PetsModule { }

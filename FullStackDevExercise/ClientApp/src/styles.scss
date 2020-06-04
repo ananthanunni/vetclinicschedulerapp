@@ -29,6 +29,7 @@ footer {
         text-transform: uppercase;
         font-weight: bold;
         color: white;
+        padding: 9px 0;
         background: linear-gradient(90deg, #2b2b2b, #585858);
 
         &.holiday {
@@ -91,63 +92,78 @@ footer {
 
 // Schedule list
 .schedule-list {
+  &.slot-picker {
+    .schedule-row {
+      height: 36px;
+    }
+
+    .schedule-cell {
+      transition-duration: 0.3s;
+
+      &.blocked {
+        background-image: linear-gradient(180deg, #7bce67, #c9ffbc);
+      }
+
+      &.can-block {
+        cursor: pointer;
+        background-image: linear-gradient(180deg, #f0faff, #f2fdff);
+        animation: highlightAnimation 0.82s cubic-bezier(.36,.07,.19,.97) infinite alternate;
+      }
+
+      &.cannot-block {
+        cursor: not-allowed;
+        background-image: linear-gradient(180deg, #fffdfd, #fff7f7);
+        border-color: #ffbbbb;
+      }
+    }
+  }
+
   .schedule-row {
     display: flex;
+    height: 66px;
 
     .schedule-cell-lead {
       width: 24%;
-      padding: 23px 6px;
       text-align: center;
       font-size: 12px;
       background: #35eaa7;
       margin: 1px 0px 0 0;
       border-radius: 6px;
+      z-index: 12;
     }
 
     .schedule-cell {
-      background-image: linear-gradient(270deg, #d3ffbc, #defbcf);
+      background-image: linear-gradient(180deg, #d3ffbc, #defbcf);
       border: 1px solid #cdecbd;
       width: 100%;
-      height: 66px;
-      padding: 6px 3px;
       margin: 3px 0;
       transition-duration: 0.3s;
-      border-radius: 6px;
 
       &.inactive {
-        background-image: linear-gradient(270deg, #ffffff, white);
-        opacity: 0.24;
+        background-image: linear-gradient(180deg, #ffffff, white);
+        opacity: 0.36;
       }
 
       &.taken {
         background-image: none;
         background-color: #ffd8d8;
         border-color: #ff8686;
+        border-width: 1px 0;
       }
 
+      &.selected {
+        border-bottom-width: 6px !important;
+      }
 
       .cell-content {
         position: relative;
         height: 100%;
 
-        .appointment-chain-link {
-          background: #ffd8d8;
-          position: absolute;
-          color: #ff2b2b;
-          top: -7.5px;
-          text-shadow: #a78a8a 2px 2px 3px;
-          left: -9px;
-          padding: 20px 0;
-          border: 1px solid;
-          border-width: 1px 0;
-        }
-
         .appointment-info {
           position: absolute;
-          bottom: 6px;
+          bottom: -4px;
           width: 100%;
           height: 100%;
-          text-align: right;
 
           .pet-icon {
             position: absolute;
@@ -155,8 +171,9 @@ footer {
             background-size: contain;
             width: 30px;
             height: 30px;
-            left: 0px;
-            bottom: 0;
+            right: 9px;
+            top: 9px;
+            opacity: 0.3;
           }
 
           .owner-name {
@@ -167,13 +184,28 @@ footer {
 
         .time-display {
           position: absolute;
-          left: 6px;
-          top: -6px;
+          left: 0px;
+          top: -3px;
           font-size: small;
           color: #00000073;
           font-style: italic;
         }
+
+        .btn-unblock {
+          position: absolute;
+          bottom: 0;
+        }
       }
+    }
+  }
+
+  @keyframes highlightAnimation {
+    0% {
+      transform: scale(1);
+    }
+
+    100% {
+      transform: scale(0.9);
     }
   }
 }

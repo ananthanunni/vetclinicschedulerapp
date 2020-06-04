@@ -1,0 +1,35 @@
+<div>
+  <div class="form">
+    <div class="form-group">
+      <label for="owner-id">
+        <span class="fa fa-check-circle text-success" *ngIf="!!owner"></span>
+        Owner
+      </label>
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <input type="text" readonly [value]="owner?.fullName" class="form-control" placeholder="Select an owner" />
+        </div>
+        <div class="flex-shrink">
+          <button class="btn btn-primary" (click)="changeOwner()">
+            <span>...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>
+        <span class="fa fa-check-circle text-success" *ngIf="selectedPetId||0>0"></span>
+        Pet
+      </label>
+      <select class="form-control" [attr.disabled]="owner?.id>0?null:true" (change)="onSelectedPetChanged($event)" [(ngModel)]="selectedPetId">
+        <option *ngFor="let pet of petCollection||[]" [ngValue]="pet.id">
+          {{pet.name}} ({{pet.type}}, age: {{pet.age}})
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<ng-template #ownerLookup>
+  <shared-services-owner-list></shared-services-owner-list>
+</ng-template>

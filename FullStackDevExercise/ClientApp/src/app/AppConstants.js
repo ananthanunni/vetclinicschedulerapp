@@ -8,6 +8,7 @@ var AppConstants = /** @class */ (function () {
     AppConstants.closeHour = 1830;
     AppConstants.breaks = [{ begin: 1230, end: 1330 }, { begin: 1630, end: 1500 }];
     AppConstants.slotDurationInMinutes = 15;
+    AppConstants.searchQueryTimeoutMilliseconds = 600;
     return AppConstants;
 }());
 exports.AppConstants = AppConstants;

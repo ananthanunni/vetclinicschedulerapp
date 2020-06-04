@@ -35,7 +35,7 @@ export class DataEditViewModalComponent implements OnInit {
       .subscribe(
         r => {
           this.activeModal.close({ success: true, data: this.formGroup.value });
-          this.dialogService.showToast("Item updated successfully.", "success")
+          this.dialogService.showToast("Record saved successfully.", "success")
         },
         r => this.dialogService.showToast("Error saving record.", "error"));
   }

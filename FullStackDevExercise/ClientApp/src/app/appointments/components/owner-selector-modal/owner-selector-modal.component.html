@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title" [innerHtml]="config.title"></h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss()">
+    <span class="fa fa-times text-danger"></span>
+  </button>
+</div>
+<div class="modal-body">
+  <div>
+    <shared-services-owner-list [isLookupMode]="true" (onItemSelected)="onOwnerSelected($event)"></shared-services-owner-list>
+  </div>
+</div>
+<div class="modal-footer">
+  <button (click)="activeModal.dismiss()" class="btn btn-default">
+    <span>Close</span>
+  </button>
+</div>

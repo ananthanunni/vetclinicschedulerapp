@@ -25,8 +25,7 @@ export class AuthenticationService {
   isAuthenticated = this.authenticatedUser.pipe(map(r => !!r));
 
   signOut() {
-    this.storageService.clearValue("userName");
-    this.storageService.clearValue("userToken");
+    this.storageService.clearAll();
     this.authenticatedUser.next(null);
   }
 }

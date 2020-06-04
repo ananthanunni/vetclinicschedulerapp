@@ -73,7 +73,7 @@ namespace FullStackDevExercise
 	slot_from	VARCHAR(36),
 	slot_to	VARCHAR(36),
 	notes	TEXT,
-	foreign key (pet_id) references pets(id) ON DELETE cascade ON UPDATE no action
+	foreign key (pet_id) references pets(id) ON DELETE no action ON UPDATE no action
 )";
       createTable.ExecuteNonQuery();
       createTable.Dispose();

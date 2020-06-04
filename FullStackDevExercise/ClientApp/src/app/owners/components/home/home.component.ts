@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MetaService } from '../../../shared-core/services/meta.service';
 import { StorageService } from '../../../shared-core/services/storage.service';
 import { Router } from '@angular/router';
-import { Owner } from '../../services/owner.service';
+import { Owner } from '../../../shared-services/services/owner.service';
 
 @Component({
   selector: 'owners-home',

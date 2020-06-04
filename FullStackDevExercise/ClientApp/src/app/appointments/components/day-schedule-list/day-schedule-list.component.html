@@ -1,16 +1,21 @@
-<h2>
-  Appointments for <span [innerHtml]="selectedDateDisplay"></span>
-</h2>
 <div *ngIf="!isLoading; else throbber" class="row">
   <div class="col">
-    <div class="schedule-list">
+    <div class="schedule-list" [ngClass]="{'slot-picker':isSlotPickerMode}">
       <div class="schedule-row" *ngFor="let hour of hours">
         <div class="schedule-cell-lead">
           <strong>{{blockLeadTextDisplay(hour)}}</strong>
         </div>
         <div class="schedule-cell"
              *ngFor="let slot of hour.slots"
-             [ngClass]="{'inactive':slot.isInactive,'taken':slot.appointment}">
+             [ngClass]="{
+             'inactive':slot.isInactive,
+             'taken':slot.appointment,
+             'selected':slot.appointment && slot.appointment?.id === selectedAppointmentId,             
+             'can-block':isSlotPickerMode && canBlockSlot(slot),'cannot-block':isSlotPickerMode && !slot.isInactive && !slot.isBlocked && !canBlockSlot(slot),
+             'can-unblock':isSlotPickerMode && canUnblockSlot(slot),
+             'blocked': slot.isBlocked
+             }"
+             (click)="isSlotPickerMode?onSlotClicked(slot):onAppointmentClicked(slot.appointment)">
           <ng-container *ngTemplateOutlet="cell;context:{hour:hour, slot:slot }"></ng-container>
         </div>
       </div>
@@ -19,7 +24,7 @@
 </div>
 
 <ng-template #cell let-slot="slot" let-hour="hour">
-  <div class="cell-content">
+  <div class="cell-content" [attr.title]="slot.appointment?.notes">
     <div *ngIf="slot.isInactive">
       <div class="text-center">
         <span *ngIf="slot.inactiveReason === 'outofoffice'">CLOSED</span>
@@ -28,19 +33,22 @@
     </div>
     <div *ngIf="!slot.isInactive">
       <span class="time-display">{{toSlotTimeDisplay(slot)}}</span>
-      <div class="appointment-info" *ngIf="slot.appointment">
-        <div *ngIf="!isLinkedToPrevious(slot)">
-          <span class="pet-icon" [ngClass]="slot.appointment.pet.type"></span>
-          <div class="owner-name">
-            <strong>{{slot.appointment.owner.firstName+' '+slot.appointment.owner.firstName}}</strong>
-          </div>
-          <div class="pet-name">
-            <strong>{{slot.appointment.pet.name}}</strong>
-          </div>
-        </div>
+      <div *ngIf="!isSlotPickerMode">
+        <ng-container *ngTemplateOutlet="appointmentInfo;context:{slot:slot}"></ng-container>
+      </div>      
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #appointmentInfo let-slot="slot">
+  <div class="appointment-info" *ngIf="slot.appointment">
+    <div *ngIf="!isLinkedToPrevious(slot)">
+      <span class="pet-icon" [ngClass]="slot.appointment.pet.type"></span>
+      <div class="owner-name">
+        <strong>{{slot.appointment.owner.firstName+' '+slot.appointment.owner.lastName}}</strong>
       </div>
-      <div class="appointment-chain-link" *ngIf="isLinkedToPrevious(slot)">
-        <span class="fa fa-chevron-right"></span>
+      <div class="pet-name">
+        <strong>{{slot.appointment.pet.name}}</strong>
       </div>
     </div>
   </div>

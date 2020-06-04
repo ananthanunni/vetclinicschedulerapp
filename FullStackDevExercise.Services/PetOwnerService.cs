@@ -35,8 +35,9 @@ namespace FullStackDevExercise.Services
     {
       if (model.Id == 0)
       {
-        await _ownerRepo.InsertAsync(_ownerCodec.Decode(model));
-        return model.Id == 0;
+        var id = await _ownerRepo.InsertAsync(_ownerCodec.Decode(model));
+        model.Id = id;
+        return model.Id > 0;
       }
       else
       {

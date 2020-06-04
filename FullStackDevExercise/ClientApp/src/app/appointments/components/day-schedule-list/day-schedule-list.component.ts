@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, Output } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { AppConstants } from '../../../AppConstants';
-import { Appointment, AppointmentsService } from '../../services/appointments.service';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { DialogService } from '../../../shared-core/services/dialog.service';
+import { Appointment, AppointmentsService, Slot } from '../../services/appointments.service';
 import { DateTimeService } from '../../services/date-time.service';
 
 @Component({
@@ -10,15 +9,34 @@ import { DateTimeService } from '../../services/date-time.service';
   styleUrls: ['./day-schedule-list.component.css']
 })
 export class DayScheduleListComponent implements OnInit, OnChanges {
-  appointments: Appointment[];
   isLoading = false;
   hours: Hour[];
-  slots: Slot[];
+  slots: ScheduleSlot[];
 
-  constructor(private dateTimeService: DateTimeService, private sanitizer: DomSanitizer, private appointmentService: AppointmentsService) { }
+  selectedAppointmentId: number;
+
+  @Input("isSlotPickerMode")
+  isSlotPickerMode = false;
+
+  @Input("appointments")
+  appointments: Appointment[];
+
+  @Output("appointmentsChange")
+  appointmentsChange = new EventEmitter<Appointment[]>();
+
+  @Output("onAppointmentSelected")
+  onAppointmentSelected = new EventEmitter<number>();
+
+  @Input("selectedSlots")
+  selectedSlots: Slot[] = [];
+
+  @Output("selectedSlotsChange")
+  selectedSlotsChange = new EventEmitter<Slot[]>();
 
   @Input("date")
   selectedDate: Date;
+
+  constructor(private dateTimeService: DateTimeService, private dialogService: DialogService, private appointmentService: AppointmentsService) { }
 
   ngOnInit(): void {
     this.initialize();
@@ -30,53 +48,86 @@ export class DayScheduleListComponent implements OnInit, OnChanges {
       this.loadData();
   }
 
+  onAppointmentClicked(appointment: Appointment) {
+    if (!appointment || this.selectedAppointmentId === appointment.id) return;
+
+    this.selectedAppointmentId = appointment.id;
+
+    this.onAppointmentSelected.emit(this.selectedAppointmentId);
+  }
+
+  onSlotClicked(slot: ScheduleSlot) {
+    if (!slot.isBlocked) {
+      this.blockSlot(slot);
+    }
+    else {
+      this.unblockSlot(slot);
+    }
+
+    this.selectedSlotsChange.emit(this.selectedSlots);
+  }
+
+  private blockSlot(slot: ScheduleSlot) {
+    if (!this.canBlockSlot(slot, true)) return;
+    slot.isBlocked = true;
+
+    this.selectedSlots.push(slot);
+    this.selectedSlots = this.selectedSlots.sort((r1, r2) => r1.start > r2.start ? 1 : -1);
+  }
+
+  private unblockSlot(slot: ScheduleSlot) {
+    if (!this.canUnblockSlot(slot)) return;
+    slot.isBlocked = false;
+
+    this.selectedSlots.splice(this.selectedSlots.indexOf(slot), 1);
+  }
+
+  canUnblockSlot(slot: ScheduleSlot) {
+    let index = this.selectedSlots.indexOf(slot);
+    return index === 0 || index === this.selectedSlots.length - 1;
+  }
+
+  canBlockSlot(slot: ScheduleSlot, showReason = false) {
+    if (slot.appointment || slot.isInactive || slot.isBlocked) return false;
+    if (slot.start < new Date()) {
+      if (showReason) this.dialogService.showToast("Can't block a time slot in the past.", "warning");
+      return false;
+    }
+
+    if (this.selectedSlots?.length === 0) return true;
+
+    let slotIndex = this.slots.indexOf(slot);
+    if (slotIndex === 0) return true;
+
+    let prevBlock = this.slots[slotIndex - 1];
+    if (prevBlock.isBlocked) return true;
+
+    if (slotIndex < this.slots.length - 1) {
+      let nextBlock = this.slots[slotIndex + 1];
+      if (nextBlock.isBlocked) return true;
+    }
+
+    return false;
+  }
+
+  toSlotTimeDisplay(slot: ScheduleSlot) { return this.dateTimeService.toFriendlyTimeDisplay(slot.start, false); }
+
+  isLinkedToPrevious(slot: ScheduleSlot) {
+    if (!slot.appointment) return false;
+
+    let itemIndex = this.slots.indexOf(slot);
+
+    if (itemIndex === 0) return false;
+
+    if (this.slots[itemIndex - 1].appointment == slot.appointment) return true;
+
+    return false;
+  }
+
+  blockLeadTextDisplay(hour: Hour) { return this.dateTimeService.toFriendlyTimeDisplay(hour.slots[0].start, false, false); }
+
   private initialize() {
-    let slots: Slot[] = [];
-    let start = AppConstants.openHour;
-    let end = AppConstants.closeHour;
-
-    let today = new Date(this.selectedDate);
-    let todayYear = today.getFullYear();
-    let todayMonth = today.getMonth();
-    let todayDate = today.getDate();
-
-    let openEmptySlots = [...Array(~~((~~(AppConstants.openHour % 100)) / AppConstants.slotDurationInMinutes)).keys()].map(r => r * AppConstants.slotDurationInMinutes);
-    for (let emptySlot of openEmptySlots)
-      slots.push(new Slot(new Date(todayYear, todayMonth, todayDate, ~~(start / 100), emptySlot), AppConstants.slotDurationInMinutes, "outofoffice"));
-
-    let slot = start;
-
-    while (slot < end) {
-      let slotStartDateTime = new Date(todayYear, todayMonth, todayDate, ~~(slot / 100), slot % 100);
-      let newSlot = new Slot(
-        slotStartDateTime,
-        AppConstants.slotDurationInMinutes
-      );
-
-      if (AppConstants.breaks.findIndex(br => {
-        let slotStartTime = (slotStartDateTime.getHours() * 100) + slotStartDateTime.getMinutes();
-
-        return slotStartTime >= br.begin && slotStartTime < br.end;
-      }) >= 0)
-        newSlot.inactiveReason = "break";
-
-      slots.push(newSlot);
-
-      if ((slot + AppConstants.slotDurationInMinutes) % 100 >= 60)
-        slot = ((~~(slot / 100)) + 1) * 100;
-      else
-        slot += AppConstants.slotDurationInMinutes;
-    }
-
-    if (end % 100 !== 0) {
-      end = (~~(end / 100) * 100) + (60 - AppConstants.slotDurationInMinutes);
-      for (; slot <= end; slot += AppConstants.slotDurationInMinutes)
-        slots.push(new Slot(
-          new Date(todayYear, todayMonth, todayDate, ~~(slot / 100), slot % 100),
-          AppConstants.slotDurationInMinutes,
-          "outofoffice"
-        ));
-    }
+    let slots = this.appointmentService.getSlotsForDay(new Date(this.selectedDate));
 
     this.hours = slots
       .map(r => r.start.getHours()).filter((value, index, self) => self.indexOf(value) === index)
@@ -85,25 +136,10 @@ export class DayScheduleListComponent implements OnInit, OnChanges {
     this.slots = slots;
   }
 
-  toSlotTimeDisplay(slot: Slot) { return this.dateTimeService.toFriendlyTimeDisplay(slot.start, false); }
-
-  isLinkedToPrevious(slot: Slot) {
-    if (!slot.appointment) return false;
-
-    let itemIndex = this.slots.indexOf(slot);
-
-    if (itemIndex === 0) return false;
-
-    if (this.slots[itemIndex - 1].appointment == slot.appointment) return true;
-    
-    return false;
-  }
-
-  blockLeadTextDisplay(hour: Hour) { return this.dateTimeService.toFriendlyTimeDisplay(hour.slots[0].start, false, false); }
-
-  loadData() {
+  private loadData() {
     this.initialize();
 
+    this.selectedAppointmentId = null;
     this.isLoading = true;
     this.appointmentService.getAppointmentsForDate(this.selectedDate)
       .subscribe(
@@ -111,7 +147,9 @@ export class DayScheduleListComponent implements OnInit, OnChanges {
           this.appointments = r || [];
 
           for (let app of this.appointments) {
-            let slots = this.slots.filter(s => s.start >= app.slotFrom && s.start < app.slotTo);
+            let slots = this.slots.filter(s => {
+              return s.start.getTime() >= app.slotFrom.getTime() && s.start.getTime() < app.slotTo.getTime();
+            });
 
             for (let s of slots) {
               s.appointment = app;
@@ -121,25 +159,30 @@ export class DayScheduleListComponent implements OnInit, OnChanges {
         e => {
           this.appointments = []
         },
-        () => this.isLoading = false
+        () => {
+          this.isLoading = false;
+          this.appointmentsChange.emit(this.appointments);
+        }
       );
   }
-
-  get selectedDateDisplay() { return this.sanitizer.bypassSecurityTrustHtml(this.dateTimeService.toFriendlyDateDisplay(this.selectedDate)); }
 }
 
 class Hour {
-  constructor(public slots: Slot[]) { }
+  constructor(public slots: ScheduleSlot[]) { }
 }
 
-class Slot {
-  constructor(public start: Date, public durationInMinutes: number, public inactiveReason: "outofoffice" | "break" = null) { }
+class ScheduleSlot extends Slot {
+  constructor(start: Date, durationInMinutes: number, public inactiveReason: "outofoffice" | "break" = null) {
+    super(start, durationInMinutes);
+  }
 
   isInHour(hour: number) {
     return this.start.getHours() === hour;
   }
 
   appointment: Appointment;
+
+  isBlocked: boolean;
 
   get isInactive() { return !!this.inactiveReason; }
 }

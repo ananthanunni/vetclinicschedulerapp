@@ -2,22 +2,26 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { routes } from '../owners/owners.routes';
 import { SharedCoreModule } from '../shared-core/shared-core.module';
+import { SharedServicesModule } from '../shared-services/shared-services.module';
 import { HomeComponent } from './components/home/home.component';
-import { OwnerListComponent } from './components/owner-list/owner-list.component';
-import { OwnerService } from './services/owner.service';
+import { routes } from './owners.routes';
 
 @NgModule({
-  declarations: [OwnerListComponent, HomeComponent],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
     SharedCoreModule,
+    SharedServicesModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedServicesModule
   ],
   providers: [
-    OwnerService,
+    
+  ],
+  exports: [
+    
   ]
 })
 export class OwnersModule { }

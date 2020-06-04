@@ -22,7 +22,7 @@ namespace FullStackDevExercise.Data.Repository
       @$"INSERT INTO [{tableName}]
       ([{nameof(AppointmentEntity.pet_id)}],[{nameof(AppointmentEntity.slot_from)}],[{nameof(AppointmentEntity.slot_to)}],[{nameof(AppointmentEntity.notes)}])
       VALUES
-      (@fname, @lname);
+      (@pet_id, @slot_from, @slot_to, @notes);
       select last_insert_rowid();"
       , new { @pet_id = data.pet_id, @slot_from = data.slot_from, @slot_to = data.slot_to, @notes = data.notes });
 

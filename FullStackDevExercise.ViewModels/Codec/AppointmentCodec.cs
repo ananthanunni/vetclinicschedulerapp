@@ -1,17 +1,19 @@
 using FullStackDevExercise.Data.Entity;
 using System;
+using System.Globalization;
 
 namespace FullStackDevExercise.ViewModels.Codec
 {
   public class AppointmentCodec : BaseCodec<AppointmentEntity, AppointmentViewModel>, IAppointmentCodec
   {
+    private const string _dateFormat = "yyyy-MM-ddTHH:mm:ss";
     public override AppointmentEntity Decode(AppointmentViewModel data) => new AppointmentEntity
     {
       id = data.Id,
       notes = data.Notes,
       pet_id = data.PetId,
-      slot_from = data.SlotFrom.ToString(),
-      slot_to = data.SlotTo.ToString()
+      slot_from = DecodeDate(data.SlotFrom),
+      slot_to = DecodeDate(data.SlotTo)
     };
 
     public override AppointmentViewModel Encode(AppointmentEntity data) =>
@@ -20,8 +22,8 @@ namespace FullStackDevExercise.ViewModels.Codec
       Id = data.id,
       Notes = data.notes,
       PetId = data.pet_id,
-      SlotFrom = DateTime.Parse(data.slot_from),
-      SlotTo = DateTime.Parse(data.slot_to),
+      SlotFrom = EncodeDate(data.slot_from),
+      SlotTo = EncodeDate(data.slot_to),
       OwnerId = data.owner_id,
       Pet = new PetViewModel
       {
@@ -38,6 +40,9 @@ namespace FullStackDevExercise.ViewModels.Codec
         LastName = data?.owner_last_name
       }
     };
+
+    private string DecodeDate(DateTime date) => date.ToLocalTime().ToString(_dateFormat);
+    private DateTime EncodeDate(string date) => DateTime.ParseExact(date, _dateFormat, CultureInfo.InvariantCulture);
   }
 
   public interface IAppointmentCodec : ICodec<AppointmentEntity, AppointmentViewModel> { }

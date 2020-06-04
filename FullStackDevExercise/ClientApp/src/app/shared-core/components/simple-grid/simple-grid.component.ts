@@ -1,8 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DialogService } from '../../services/dialog.service';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { GridDialogService } from '../../services/grid-dialog.service';
 
 @Component({
@@ -15,18 +13,32 @@ export class SimpleGridComponent implements OnInit {
   tableData: BehaviorSubject<RowDataItem<any>[]> = new BehaviorSubject<RowDataItem<any>[]>([]);
 
   async ngOnInit() {
-    this.tableData.next(await (await this.configuration.dataProvider(new DataProviderRequesParameters())).map(r => new RowDataItem<any>(r)));
+    await this.loadData();
   }
 
   @Input("configuration")
   configuration: SimpleGridConfiguration<any>;
 
   hasActions() {
-    return this.configuration.canDelete || this.configuration.canEdit;
+    return this.configuration.canDelete || this.configuration.canEdit || this.configuration.actions?.length > 0;
   }
 
   hasData() {
     return !!this.tableData.value && this.tableData.value.length > 0;
+  }
+
+  onCreateRequested() {
+    let newItem = { id: 0 };
+    debugger;
+    this.gridDialogService.saveGridRow("Create new", this.configuration.columns, newItem, this.configuration.onSave)
+      .subscribe(
+        async (r) => {
+          if (r.success === true) {
+            await this.loadData();
+          }
+        },
+        c => { }
+      );
   }
 
   onEditRequested(dataItem: RowDataItem<any>) {
@@ -34,11 +46,12 @@ export class SimpleGridComponent implements OnInit {
 
     this.gridDialogService.saveGridRow("Edit", this.configuration.columns, dataItem.data, this.configuration.onSave)
       .subscribe(r => {
-        if (r.success == true) {
+        if (r.success === true) {
+          dataItem.finishEdit(r.data);
           dataItem.finishEdit(r.data);
 
           let currentData = this.tableData.value;
-          this.tableData.next(currentData);          
+          this.tableData.next(currentData);
 
           return;
         }
@@ -75,6 +88,10 @@ export class SimpleGridComponent implements OnInit {
   onEditCommit(dataItem: RowDataItem<any>) {
     dataItem.finishEdit(dataItem);
   }
+
+  private async loadData() {
+    return this.tableData.next(await (await this.configuration.dataProvider(new DataProviderRequesParameters())).map(r => new RowDataItem<any>(r)));
+  }
 }
 
 class RowDataItem<T> {
@@ -105,11 +122,10 @@ export class SimpleGridConfiguration<T> {
   }
 
   columns: GridColumn<T>[];
-  //canCreate: boolean;
+  canCreate: boolean;
   canDelete: boolean;
   canEdit: boolean;
   dataProvider: (parameters: DataProviderRequesParameters) => Promise<T[]>;
-
   onDeleteRequested: (data: T) => Promise<boolean>;
   onSave: (data: T) => Observable<any>;
 
@@ -134,4 +150,7 @@ export class GridAction<T> {
 export class DataProviderRequesParameters {
   pageSize: number;
   pageNumber: number;
+
+  // TODO: Implement search and filter
+  searchText: string;
 }

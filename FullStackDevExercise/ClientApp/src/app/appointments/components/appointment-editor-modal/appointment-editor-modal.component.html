@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h4 class="modal-title" [innerHtml]="displayTitle"></h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.dismiss()">
+    <span class="fa fa-times text-danger"></span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-lg-5">
+      <ng-container *ngTemplateOutlet="petLookup"></ng-container>
+      <div class="text-center">
+        <div *ngIf="isTimeSelected()">
+          <strong class="text-info">{{displayFromTime}}</strong>
+          <span> TO </span>
+          <strong class="text-info">{{displayToTime}}</strong>
+        </div>
+        <div *ngIf="!isTimeSelected()">
+          <span class="text-danger">
+            <span class="fa fa-exclamation"></span>
+            Time slot is not selected yet.
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <ng-container *ngTemplateOutlet="timeSlotPicker"></ng-container>
+    </div>
+  </div>
+  <form [formGroup]="formGroup" *ngIf="!!formGroup">
+    <div class="form-group">
+      <label for="input_text_notes}">Notes:</label>
+      <textarea class="form-control" formControlName="notes" id="input_text_notes"></textarea>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button *ngFor="let button of config.buttons" (click)="buttonClicked(button)" [attr.disabled]="button.enabled ? (button.enabled()?null:true):null" class="btn" [ngClass]="{'btn-primary':button.isDefault, 'btn-danger':button.isDanger}">
+      <span [ngClass]="button.iconCss"></span>
+      <span *ngIf="button.iconCss&&button.label">&nbsp;</span>
+      <span>{{button.label}}</span>
+    </button>
+  </div>
+</div>
+
+<ng-template #petLookup>
+  <appointments-pet-lookup *ngIf="!!formGroup" [group]="formGroup" controlName="petId"></appointments-pet-lookup>
+</ng-template>
+
+<ng-template #timeSlotPicker>
+  <appointments-time-slot-picker [appointments]="config.existingAppointments"
+                                 [group]="formGroup"
+                                 fromControlName="slotFrom"
+                                 toControlName="slotTo"
+                                 [date]="config.date"></appointments-time-slot-picker>
+</ng-template>
