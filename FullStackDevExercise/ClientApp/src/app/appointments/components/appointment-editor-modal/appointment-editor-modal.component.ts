@@ -91,16 +91,13 @@ export class AppointmentEditorModalComponent implements OnInit {
 
   get displayTitle() { return !!this.appointment?.id ? "Edit appointment" : "Create appointment"; }
   get displayFromTime() { return this.toDisplayTime("slotFrom"); }
-  get displayToTime() { return this.toDisplayTime("slotTo", true); }
+  get displayToTime() { return this.toDisplayTime("slotTo"); }
 
-  private toDisplayTime(formControlName: string, isToTime = false) {
+  private toDisplayTime(formControlName: string) {
     let value: Date = this.formGroup?.get(formControlName)?.value;
     if (!value) return "N/A";
 
     let date = new Date(value);
-
-    if (date && isToTime)
-      date.setMinutes(date.getMinutes() + AppConstants.slotDurationInMinutes);
 
     return date ? this.dateTimeService.toFriendlyTimeDisplay(date, false, true, false) : "N/A";
   }
