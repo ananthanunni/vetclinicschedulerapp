@@ -65,6 +65,7 @@ export class HomeComponent implements OnInit {
       this.selectedDate
     )
       .subscribe(r => {
+        debugger;
         if (!r) return;
 
         this.refreshComponents();

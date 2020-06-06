@@ -31,7 +31,7 @@ namespace FullStackDevExercise.Controllers
     [Route("{year}/{month}/{date}")]
     public async Task<ActionResult<IEnumerable<AppointmentViewModel>>> GetByDate(int year, int month, int date)
     {
-      var result = await _appointmentsService.GetByDate(year, month, date);
+      var result = await _appointmentsService.GetByDate(year, month+1, date);
 
       return Ok(result);
     }

@@ -23,7 +23,15 @@ export class HttpHelperService {
     return this.http.post<TOut>(url, data);
   }
 
-  public resolveApiUrl(...urlParts: any[]) {
+  resolveApiUrl(...urlParts: any[]) {
     return `${this.document.location.origin}${this.locationStrategy.getBaseHref()}api/${urlParts.map(r=>r.toString()).filter(r=>!!r).map(url => url.startsWith('/') ? url.substring(1) : url).join('/')}`
+  }
+
+  encodeDate(date: Date) {
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  }
+
+  decodeDate(date: string) {
+    return new Date(date);
   }
 }

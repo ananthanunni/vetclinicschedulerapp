@@ -4,13 +4,36 @@
 body {
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
 main {
   padding: 12px 0;
 }
 
 footer {
   padding: 36px;
-  background: #d5d1d1;
+  background: #232323;
+  color: #d8d8d8;
+
+  .social-network {
+    li {
+      display: inline;
+      font-size: 36px;
+      margin: 6px;
+    }
+  }
+
+  a {
+    color: #d5881d;
+    transition-duration: 0.36s;
+
+    &:hover {
+      text-decoration: none;
+      color: #ffc26c;
+    }
+  }
 }
 
 
@@ -244,7 +267,7 @@ footer {
       transition-duration: 0.3s;
       color: #fff;
       text-shadow: #333 3px 3px 6px;
-      cursor:pointer;
+      cursor: pointer;
 
       &:hover {
         transform: scale(1.1);

@@ -71,7 +71,7 @@ namespace FullStackDevExercise.Data.Repository
       		INNER JOIN [pets] p ON p.id = a.pet_id
 		      INNER JOIN [owners] o ON o.id = p.owner_id
       WHERE a.[{nameof(AppointmentEntity.slot_from)}] LIKE @dateValue",
-      new { @dateValue = $"{year}-{PadZero(month + 1)}-{PadZero(date)}%" }
+      new { @dateValue = $"{year}-{PadZero(month)}-{PadZero(date)}%" }
       );
 
       return result;

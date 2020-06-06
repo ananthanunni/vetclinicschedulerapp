@@ -7,8 +7,8 @@ namespace FullStackDevExercise.ViewModels
     public long? OwnerId { get; set; }
     public long PetId { get; set; }
 
-    public DateTime SlotFrom { get; set; }
-    public DateTime SlotTo { get; set; }
+    public string SlotFrom { get; set; }
+    public string SlotTo { get; set; }
 
     public string Notes { get; set; }
 

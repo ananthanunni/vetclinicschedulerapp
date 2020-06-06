@@ -90,8 +90,8 @@ export class AppointmentsService {
 
   save(appointment: Appointment) {
     let data: any = appointment;
-    data.slotFrom = appointment.slotFrom.toJSON();
-    data.slotTo = appointment.slotTo.toJSON();
+    data.slotFrom = this.http.encodeDate(appointment.slotFrom);
+    data.slotTo = this.http.encodeDate(appointment.slotTo);
     return this.http.post<Appointment, Appointment>(this.http.resolveApiUrl("appointments"), data);
   }
 
