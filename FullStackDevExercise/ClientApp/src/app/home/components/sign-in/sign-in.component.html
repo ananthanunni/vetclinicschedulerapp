@@ -1,7 +1,7 @@
 <div class="container">
   <h1>Sign in</h1>
   <div class="row">
-    <div class="col-3">
+    <div class="col-md-3 col-sm-12">
       <form>
         <div class="form-group">
           <label for="userName">User name:</label>
@@ -16,7 +16,7 @@
         <input type="submit" class="btn btn-primary btn-block" (click)="signIn()" [disabled]="!canSignIn()" [value]="isSigningIn?'Signing in...':'Sign in'" />
       </div>
     </div>
-    <div class="col-9">
+    <div class="col-md-9 col-sm-12">
       <div class="text-center" style="background-image:url('https://image.flaticon.com/icons/svg/2936/2936612.svg'); height:100%; background-size:contain; background-repeat:no-repeat;
       background-position:center center">
         <!--<img width="120" height="120" src="https://image.flaticon.com/icons/svg/2936/2936612.svg" class="loaded">-->
